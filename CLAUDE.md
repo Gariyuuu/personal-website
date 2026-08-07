@@ -1,5 +1,26 @@
 # CLAUDE.md — Operating Manual for personal-website
 
+> ## ⚠️ POSSIBLY SUPERSEDED — READ BEFORE DOING ANY FEATURE WORK
+> A prior cross-repo inventory audit flagged this project as **likely
+> superseded** by `~/Projects/gariyuu-web`, a full Next.js build that
+> covers landing + about/résumé (with real content) + a public chat
+> demo + a password-gated dashboard. `gariyuu-web` is the
+> actively-maintained, full-featured replacement candidate; this repo
+> was listed as **"a candidate to delete."**
+>
+> That said — as of this doc refresh (2026-08-07), this repo is **not
+> dormant**: it received 6 new commits *today* reworking the site into
+> a dark "hacker" theme with a JS boot animation, on top of the docs
+> commit. So there is active, recent investment here even though the
+> supersession question has never been resolved.
+>
+> **No deletion has happened. This is not yet decided.** Before
+> starting any new feature work here, **check with the owner** on
+> whether this repo should keep being developed, be frozen as-is, or
+> be deleted in favor of `gariyuu-web`. See `PROJECT_STATE.md` and
+> `HANDOFF.md` for the full framing, and `HANDOFF.md`'s "Prompt for the
+> next Claude Code account" section for exact wording to open with.
+
 This file is the primary entry point for any AI coding agent (or human)
 picking up this repository. Read this first, then `PROJECT_STATE.md`,
 then `TASKS.md`, before touching anything.
@@ -8,11 +29,13 @@ This entire memory system (`CLAUDE.md`, `PROJECT_STATE.md`,
 `ARCHITECTURE.md`, `FILE_MAP.md`, `FEATURES.md`, `TASKS.md`,
 `ROADMAP.md`, `DECISIONS.md`, `DATABASE.md`, `API_REFERENCE.md`,
 `UI_SYSTEM.md`, `SECURITY.md`, `TESTING.md`, `DEPLOYMENT.md`,
-`CHANGELOG.md`, `SESSION_LOG.md`, `HANDOFF.md`) was generated on
-**2026-08-06** by auditing the actual repository (files, `.gitignore`,
-`.vercel/` config, git history) — not by recalling prior chat history.
-Where something couldn't be verified from the repo alone, it is labeled
-**Inferred** or **Unverified** rather than stated as fact.
+`CHANGELOG.md`, `SESSION_LOG.md`, `HANDOFF.md`, `README.md`) was
+generated on **2026-08-06** by auditing the actual repository (files,
+`.gitignore`, `.vercel/` config, git history), and **refreshed on
+2026-08-07** after the site was reworked into a dark hacker theme with
+JavaScript — not by recalling prior chat history. Where something
+couldn't be verified from the repo alone, it is labeled **Inferred** or
+**Unverified** rather than stated as fact.
 
 **Scope note up front:** this is an intentionally tiny project — one
 static HTML file, one photo, and Vercel hosting config. Do not
@@ -31,7 +54,12 @@ sign that the documentation is incomplete.
 - **Detailed summary:** A one-page online résumé: sticky nav, hero with
   photo/headline/social links, and sections for About, Experience,
   Projects, Education, Skills, Honors, and Contact. Content is a
-  hand-authored HTML rendering of the owner's resume.
+  hand-authored HTML rendering of the owner's resume. As of 2026-08-07
+  the page is wrapped in a dark "hacker" visual theme — a full-screen
+  Matrix-style canvas rain effect and a skippable JS terminal
+  boot/"hack" intro sequence play before the résumé content is shown —
+  layered on top of the same résumé content and section structure
+  described above. See `FEATURES.md` and `UI_SYSTEM.md`.
 - **Target audience:** Anyone the owner shares the link with (e.g.
   recruiters, collaborators) — a public, always-current online resume.
 - **Current development stage:** Complete and stable for its current
@@ -64,22 +92,35 @@ See `PROJECT_STATE.md` for the exact, timestamped snapshot. Summary:
 
 ## Technology stack
 
-- **Language/markup:** Plain HTML5 + CSS (one `<style>` block in
-  `index.html`'s `<head>`). No JavaScript anywhere in the file.
+- **Language/markup:** Plain HTML5 + CSS + a small amount of vanilla
+  JavaScript (two inline `<script>` IIFEs at the end of `<body>`: a
+  canvas "digital rain" background effect, and a scripted terminal
+  boot/hack-intro sequence that runs once per page load and can be
+  skipped by click/keypress). No JS framework, no build step for the
+  JS — it's hand-written inline script, same as the CSS.
 - **Framework:** None. No React/Next.js/Vue/etc. No `package.json`
   exists in this repo — there are no npm dependencies at all.
 - **Build step:** None. `index.html` is served as-is; there is nothing
   to compile, bundle, or transpile.
 - **Styling:** Inline `<style>` block using CSS custom properties
-  (`:root { --text; --muted; --line; --accent; --bg; --maxw }`). No
-  Tailwind, no CSS framework, no CSS-in-JS. See `UI_SYSTEM.md`.
-- **Fonts:** System font stack (`"Helvetica Neue", -apple-system,
-  BlinkMacSystemFont, "Segoe UI", Arial, sans-serif`) — no web font
-  loading, no `next/font` or Google Fonts `<link>`.
+  (`:root { --text; --muted; --line; --accent; --accent-2; --bg;
+  --surface; --maxw }`), now a dark/near-black "hacker" palette (green
+  accent `#00ff8c`, cyan accent `#00e5ff`). No Tailwind, no CSS
+  framework, no CSS-in-JS. See `UI_SYSTEM.md`.
+- **Fonts:** `"Share Tech Mono"` monospace webfont loaded from Google
+  Fonts (`<link rel="preconnect">` to `fonts.googleapis.com`/
+  `fonts.gstatic.com` + a `fonts.googleapis.com/css2?family=...`
+  stylesheet link), falling back to system monospace fonts. This is a
+  real third-party network request added during the 2026-08-07 theme
+  rework — earlier docs describing "system font stack only, no Google
+  Fonts" predate this change.
 - **Icons:** Inline SVG paths, hand-authored directly in `index.html`
-  (GitHub/LinkedIn/email glyphs). Favicon is also an inline SVG, encoded
-  as a `data:` URI in the `<link rel="icon">` tag — no separate favicon
-  file exists.
+  (GitHub/LinkedIn/Email glyphs, plus an OpenReview glyph added
+  2026-08-07). Favicon is a separate committed file, `favicon.ico`
+  (referenced via `<link rel="icon" href="favicon.ico">`) — earlier
+  docs describing an inline `data:` SVG favicon are outdated; that
+  approach was replaced by this real `favicon.ico` file at some point
+  before this refresh.
 - **Images:** One JPEG, `photo.jpeg` (400×400px, ~31KB), referenced as
   a CSS `background-image` for the circular avatar.
 - **Hosting:** Vercel. `.vercel/project.json` (gitignored, local-only)
@@ -142,6 +183,9 @@ personal-website/
 ├── photo.jpeg           # Profile photo (400x400 JPEG), used as the CSS
 │                        #   background-image for the circular avatar in
 │                        #   the hero section. Only image asset in the repo.
+├── favicon.ico           # Browser-tab icon, committed binary file
+│                          #   (replaced an earlier inline data:-URI SVG
+│                          #   favicon at some point before 2026-08-07).
 ├── .vercel/              # Vercel CLI link metadata. GITIGNORED — not
 │   ├── project.json       #   committed to git. Contains projectId/orgId/
 │   └── README.txt         #   projectName (Vercel's own auto-generated
@@ -179,8 +223,11 @@ Observed directly from `index.html` (Verified):
   utility-class framework.
 - **CSS custom properties** for the small color/sizing palette,
   declared once under `:root` and referenced via `var(--x)` throughout.
-- **No JavaScript** anywhere — all interactivity (nav anchor scrolling)
-  is native browser behavior (`html { scroll-behavior: smooth; }`).
+- **JavaScript:** two small inline `<script>` IIFEs at the end of
+  `<body>` (canvas rain background + boot/hack intro sequence) — see
+  the "Technology stack" section above. Nav anchor scrolling itself is
+  still native browser behavior (`html { scroll-behavior: smooth; }`),
+  not JS-driven.
 - **Responsive:** one `@media (max-width: 560px)` breakpoint collapsing
   the two-column `.item` grid to one column and reducing hero padding.
   One `@media print` rule hides the nav when printing.
@@ -190,10 +237,15 @@ Observed directly from `index.html` (Verified):
 
 ## UI and design system
 
-Full detail in `UI_SYSTEM.md`. Key facts: light theme only (no dark
-mode / no `prefers-color-scheme` handling), max content width `720px`
-centered, accent color `#1d4ed8` (blue), body copy `17px/1.7`, system
-font stack, single responsive breakpoint at `560px`.
+Full detail in `UI_SYSTEM.md`. Key facts (updated 2026-08-07 for the
+dark hacker-theme rework): dark theme only (near-black background,
+green/cyan accents — no `prefers-color-scheme` handling, just one fixed
+dark palette), max content width `720px` centered, accent color
+`#00ff8c` (green) with a `#00e5ff` (cyan) secondary accent, body copy
+`16px/1.7`, `"Share Tech Mono"` monospace webfont (Google Fonts, with
+system-monospace fallback), single responsive breakpoint at `560px`,
+plus a full-screen canvas rain effect and a one-time skippable terminal
+boot animation on load.
 
 ## Environment setup
 
@@ -243,9 +295,10 @@ Vercel dashboard to confirm.
   own guidance (`.vercel/README.txt`) is explicit that this folder
   should never be shared/committed.
 - **Contact info accuracy** — the email (`gywng006@gmail.com`), GitHub
-  (`Gariyuuu`), and LinkedIn URLs in `index.html` are the owner's real,
-  public contact details. Don't alter them without being told to; a
-  typo here silently breaks how people reach the site's owner.
+  (`Gariyuuu`), LinkedIn, and OpenReview URLs in `index.html` are the
+  owner's real, public contact/profile details. Don't alter them
+  without being told to; a typo here silently breaks how people reach
+  the site's owner.
 - **`.gitignore`** — keep `.vercel` and `.DS_Store` ignored. Don't add
   broad patterns that could accidentally re-include or exclude the wrong
   files given how small this repo is (there's nothing else to protect,
@@ -301,10 +354,11 @@ must:
     touching something else" — this site is deliberately a plain static
     page; that's a real, standing decision (see `DECISIONS.md`), not an
     oversight to "fix."
-16. Never add tracking/analytics scripts, third-party JS, or external
-    resource loads without being asked — the current zero-JavaScript,
-    zero-third-party-request footprint is intentional (see
-    `SECURITY.md`).
+16. Never add tracking/analytics scripts or further third-party
+    resource loads beyond the existing Google Fonts stylesheet without
+    being asked — the current script (canvas rain + boot animation) is
+    self-contained, first-party, and takes no user input; keep it that
+    way (see `SECURITY.md`).
 17. Never change the owner's real contact details (email/GitHub/
     LinkedIn) without explicit instruction.
 18. Record unresolved uncertainty (e.g. "is auto-deploy actually

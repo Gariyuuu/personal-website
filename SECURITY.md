@@ -14,15 +14,34 @@ attack surfaces that don't exist here.
   passwords, no tokens. See `DATABASE.md`/`API_REFERENCE.md` — there's
   no backend to authenticate against.
 - **No database.** Nothing to inject into, no data to leak.
-- **No JavaScript.** No XSS surface from client-side scripting (there is
-  no script on the page to exploit) and no third-party JS dependencies
-  to worry about supply-chain risk from.
-- **No secrets in the repo.** Checked directly during this audit: no
-  `.env` files, no API keys, no tokens, no credentials anywhere in
-  `index.html`, `.gitignore`, or the tracked files. The only
-  "identifiers" present are the owner's intentionally-public contact
-  details (email, GitHub username, LinkedIn URL) — these are meant to
-  be public, not sensitive.
+- **Minimal JavaScript, no user input.** As of 2026-08-07 `index.html`
+  contains two small inline `<script>` blocks (a canvas rain effect and
+  a boot-intro animation — see `ARCHITECTURE.md`). Both are
+  hand-written, first-party, and process no user input of any kind (no
+  `innerHTML` built from anything except hardcoded string arrays in the
+  script itself) — there's no realistic XSS surface. There are no
+  third-party JS *library* dependencies (no CDN `<script src>` tags),
+  so no JS supply-chain risk in the traditional sense.
+- **One third-party network dependency: Google Fonts.** `index.html`
+  loads the `Share Tech Mono` webfont via `fonts.googleapis.com`/
+  `fonts.gstatic.com` (added 2026-08-07). This is a real outbound
+  request to a third party (Google) that earlier versions of this doc
+  didn't have to account for — it's a low-risk, widely-used CDN font
+  load, not tracking/analytics, but it is a dependency on a resource
+  outside this repo's control (if Google Fonts is ever unreachable,
+  the page falls back to its declared system-monospace fonts rather
+  than breaking).
+- **No secrets in the repo.** Checked directly during this pass (and
+  the earlier 2026-08-06 audit): no `.env` files, no API keys, no
+  tokens, no credentials anywhere in `index.html`, `.gitignore`, or the
+  tracked files. The only "identifiers" present are the owner's
+  intentionally-public contact details (email, GitHub username,
+  LinkedIn URL, OpenReview profile URL) — these are meant to be public,
+  not sensitive. Note: `DEPLOYMENT.md` quotes the Vercel `projectId`/
+  `orgId` from the gitignored `.vercel/project.json` — these are
+  project identifiers, not credentials that grant access on their own,
+  but they are now visible in a committed, public doc file; flagged
+  here for awareness rather than as an actual leak.
 
 ## What does apply
 

@@ -16,27 +16,41 @@ Run this after any content or markup change to `index.html`:
 2. **Image renders.** Confirm the circular avatar photo shows
    `photo.jpeg` correctly (not a broken-image icon) — this depends on
    `photo.jpeg` existing at the repo root alongside `index.html`.
-3. **Favicon renders.** Confirm the browser tab shows the blue "GW"
-   icon (inline SVG `data:` URI, no separate file needed).
-4. **Nav anchors work.** Click every nav link (About, Experience,
+3. **Favicon renders.** Confirm the browser tab shows the icon from
+   `favicon.ico` (a real committed file, not an inline `data:` URI).
+4. **Boot/hack intro plays and is skippable.** Reload the page and
+   confirm the terminal boot animation plays (boot text → flood of
+   fake terminal windows → red "crash" screen → "reboot"/welcome →
+   fades out into the résumé). Confirm clicking anywhere or pressing
+   any key skips straight to the résumé. Confirm it doesn't play again
+   on an in-page anchor click, only on a fresh page load.
+5. **Canvas rain renders.** Confirm the full-screen "digital rain"
+   background animates behind the content and doesn't block clicks on
+   any link (it's `pointer-events: none`).
+6. **`prefers-reduced-motion` respected.** With the OS/browser
+   "reduce motion" setting on, confirm the boot intro is skipped
+   entirely (page shows the résumé immediately) and the rain canvas
+   doesn't animate.
+7. **Nav anchors work.** Click every nav link (About, Experience,
    Projects, Education, Skills, Honors, Contact) and confirm the page
    smooth-scrolls to the matching section — no dead/mismatched anchors.
-5. **External links resolve.** Confirm the GitHub icon, LinkedIn icon,
-   email icon (in the hero) and the GitHub/LinkedIn/email links (in the
-   Contact section) all point to the correct, live destinations. (A
-   full live-HTTP check of these URLs is optional — visually confirming
-   the `href` values match the intended destinations is normally
-   sufficient.)
-6. **Responsive check.** Resize the browser (or use dev tools' device
+8. **External links resolve.** Confirm the GitHub, LinkedIn, OpenReview,
+   and email icons/links (hero + Contact section) all point to the
+   correct, live destinations. (A full live-HTTP check of these URLs is
+   optional — visually confirming the `href` values match the intended
+   destinations is normally sufficient.)
+9. **Responsive check.** Resize the browser (or use dev tools' device
    toolbar) below ~560px width and confirm the Experience/Projects/
    Education entries stack into a single column instead of the
    date/content grid, and that the nav row scrolls horizontally instead
    of breaking.
-7. **Print check (optional).** Use the browser's print preview and
-   confirm the sticky nav is hidden (per the `@media print` rule).
-8. **No console errors.** Open browser dev tools' console — should be
-   empty (there's no JavaScript to throw errors, but this also catches
-   things like a missing/404'd `photo.jpeg`).
+10. **Print check (optional).** Use the browser's print preview and
+    confirm the sticky nav and rain canvas are hidden (per the
+    `@media print` rule).
+11. **No console errors.** Open browser dev tools' console — should be
+    empty. (There are now two small `<script>` blocks, so this check
+    actually matters — confirm neither throws, and that this also
+    catches things like a missing/404'd `photo.jpeg`/`favicon.ico`.)
 
 ## What this checklist does NOT cover
 

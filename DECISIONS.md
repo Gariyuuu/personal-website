@@ -34,18 +34,23 @@ recorded anywhere explicit).
   sync with no real benefit; inlining keeps the entire site in exactly
   one file.
 
-## Inline SVG favicon (`data:` URI) instead of a favicon file
+## Favicon: inline SVG (original), later replaced by a real `favicon.ico` file
 
-- **Status:** Verified (evidenced directly by the commit that added it)
-- **Decision:** The favicon is an inline SVG encoded as a `data:` URI in
-  the `<link rel="icon">` tag, not a separate `favicon.ico`/`.png`/`.svg`
-  file.
-- **Evidence:** Commit `f344976`, "Add favicon so the site shows an
-  icon in the browser tab" — added exactly one line (the `<link
-  rel="icon" href="data:image/svg+xml,...">` tag) with no new file
-  added to the repo.
-- **Why (inferred):** Keeps the "one file is the whole site" property
-  intact — no second asset file needed just for a tab icon.
+- **Status:** Verified, but superseded — flagged during the 2026-08-07
+  doc refresh as a place the docs had gone stale.
+- **Original decision (commit `f344976`, 2026-08-06):** The favicon was
+  an inline SVG encoded as a `data:` URI in the `<link rel="icon">`
+  tag, not a separate file — "Add favicon so the site shows an icon in
+  the browser tab," one line added, no new file.
+- **Current state (verified 2026-08-07):** `index.html` now references
+  `<link rel="icon" href="favicon.ico">`, and a real `favicon.ico`
+  binary file (22.7KB) is committed at the repo root. The inline `data:`
+  SVG approach is no longer in use.
+- **Why the switch happened:** Not recorded in any commit message found
+  during this pass — likely alongside or shortly after the 2026-08-07
+  dark hacker-theme rework, to get a more detailed/multi-resolution
+  icon than a simple inline SVG could easily provide. Exactly which
+  commit made the swap wasn't isolated (see `PROJECT_STATE.md`).
 
 ## Vercel for hosting
 
@@ -69,6 +74,36 @@ recorded anywhere explicit).
   sufficient for a single HTML file with no build step — there's
   nothing to configure (no build command, no output directory
   override, no redirects/headers needed).
+
+## Dark "hacker" theme rework + JS boot animation
+
+- **Status:** Verified
+- **Decision:** Replaced the original light theme with a dark,
+  near-black "hacker" palette (green/cyan accents), switched fonts to
+  the `Share Tech Mono` Google Fonts monospace webfont, added a
+  full-screen canvas "digital rain" background effect, and added a
+  skippable JS terminal boot/hack-intro animation that plays once on
+  page load.
+- **Evidence:** Five commits on 2026-08-07: `9778732` ("Rework site
+  into a dark hacker theme, add OpenReview link"), `eff4591` ("Add
+  terminal boot-up intro animation"), `c324c71` ("Slow the rain, extend
+  the boot sequence, add a hacked red screen"), `88b465d` ("Turn the
+  hacker-log flood into scattered black-and-white terminal windows"),
+  `813e215` ("Make the hacker-log flood fill the whole screen with a
+  shake").
+- **Why:** Not recorded beyond the commit messages — reads as a
+  personal-branding/visual-style choice by the owner, not a technical
+  one. Worth noting: this is a real, deliberate, multi-commit
+  investment in this site's *presentation*, made on the same day this
+  repo was separately flagged as a possible deletion candidate in favor
+  of `gariyuu-web` (see `PROJECT_STATE.md`) — the two facts are in
+  tension and haven't been reconciled with the owner as of this
+  writing.
+- **Note on prior docs:** the 2026-08-06 documentation baseline
+  described the (then-accurate) light theme, no-JS, system-font state.
+  Those claims were corrected during the 2026-08-07 doc refresh; this
+  entry exists so the "why did the docs change" question has an answer
+  in one place.
 
 ## GPA removed from Education section
 

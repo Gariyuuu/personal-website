@@ -1,31 +1,52 @@
 # FILE_MAP.md
 
 Every file in this repository, what it's for, and how to edit it
-safely. There are only 4 files total (3 tracked + 1 gitignored
-directory), so this map is intentionally short.
+safely. There are 5 tracked content/config files (plus the 17-file doc
+set) and 1 gitignored directory, so this map is intentionally short.
 
 ## `index.html`
 
 - **Purpose:** The entire website — one HTML file containing `<head>`
-  metadata, an inline `<style>` block (all CSS), and the full `<body>`
-  markup (nav, hero, 7 content sections, footer).
-- **Size:** ~246 lines, ~12.8KB.
+  metadata, an inline `<style>` block (all CSS), the full `<body>`
+  markup (boot overlay, nav, hero, 7 content sections, footer), and two
+  inline `<script>` blocks (canvas rain effect, boot/hack intro
+  animation).
+- **Size:** 611 lines, ~26KB (grew from ~246 lines/~12.8KB after the
+  2026-08-07 dark hacker-theme rework — see `DECISIONS.md`/
+  `CHANGELOG.md`).
 - **Structure inside the file:**
-  - `<head>`: charset/viewport meta, `<title>`, description meta tag, an
-    inline SVG favicon (`data:image/svg+xml,...` — no separate favicon
-    file), and the entire `<style>` block.
-  - `<body>`: `<nav>` (sticky, name + 7 anchor links) → `<main>` →
-    `<header class="hero">` (avatar, name, headline, social icons) → 7
-    `<section id="...">` blocks (About, Experience, Projects,
-    Education, Skills, Honors, Contact, in that order) → `<footer>`
-    (copyright line).
+  - `<head>`: charset/viewport meta, `<title>`, description meta tag, a
+    real favicon link (`<link rel="icon" href="favicon.ico">`), Google
+    Fonts preconnect + stylesheet tags for `Share Tech Mono`, and the
+    entire `<style>` block.
+  - `<body>`: `<canvas id="rain">` (background effect) → `<div
+    id="boot">` (boot/hack intro overlay, removed by script once
+    played or skipped) → `<nav>` (sticky, name + 7 anchor links) →
+    `<main>` → `<header class="hero">` (avatar, name, headline, social
+    icons incl. OpenReview) → 7 `<section id="...">` blocks (About,
+    Experience, Projects, Education, Skills, Honors, Contact, in that
+    order) → `<footer>` (copyright line) → two `<script>` blocks (rain
+    animation, boot sequence logic).
 - **Edit guidance:** This is a hand-authored resume page — when
-  updating content (new job, new project, etc.), follow the existing
+  updating *content* (new job, new project, etc.), follow the existing
   pattern for that section (see `<div class="item">` blocks under
   Experience/Projects, or `<div class="row">` under Skills) rather than
   introducing a new markup pattern. Keep the nav's anchor links in sync
-  if you add/remove/rename a section. No build step — edits take effect
-  immediately on save/redeploy.
+  if you add/remove/rename a section. Don't touch the two `<script>`
+  blocks or the dark-theme CSS unless the visual/boot-animation
+  behavior is specifically what's being changed. No build step — edits
+  take effect immediately on save/redeploy.
+
+## `favicon.ico`
+
+- **Purpose:** Browser-tab icon, referenced via `<link rel="icon"
+  href="favicon.ico">` in `index.html`'s `<head>`.
+- **Format/size:** `.ico`, ~22.7KB. Replaced an earlier inline `data:`
+  SVG favicon approach (see `DECISIONS.md`) — the exact commit that
+  made the swap wasn't isolated during the 2026-08-07 doc refresh.
+- **Edit guidance:** Replace the file directly to change the tab icon;
+  no other file needs to change unless the filename itself changes (in
+  which case update the `<link rel="icon">` `href` too).
 
 ## `photo.jpeg`
 

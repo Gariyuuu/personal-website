@@ -57,3 +57,71 @@ audit) — the exact auto-deploy behavior and production URL remain
 **State at end of session:** Working tree has 17 new untracked files
 (this documentation set) and is otherwise clean — no other changes.
 `main` branch, HEAD at `f344976` (unchanged from session start).
+
+---
+
+## 2026-08-07 — Documentation refresh, supersession flag, README
+
+**Agent:** Claude Code (Sonnet 5)
+
+**What was requested:** Verify the existing 16-file doc set (from the
+2026-08-06 audit) against the actual current repo, add the missing
+17th file (`README.md`), and prominently flag that this repo was
+identified in a separate cross-repo inventory audit as **possibly
+superseded by `~/Projects/gariyuu-web`** and listed as "a candidate to
+delete" — surfacing that clearly and consistently so a future session
+doesn't invest work here without knowing the context, without deleting
+anything.
+
+**What was found:** The repo had drifted substantially since the
+2026-08-06 baseline. Between that audit and this session, 6 new
+commits (`b27b9c9` docs commit aside, then `9778732`, `eff4591`,
+`c324c71`, `88b465d`, `813e215`) reworked the site from a plain
+light-theme static page into a dark "hacker" theme: a canvas rain
+background effect, a skippable JS terminal boot/hack intro sequence, a
+Google Fonts webfont (`Share Tech Mono`), a real `favicon.ico` file
+(replacing the inline SVG favicon the docs described), and a new
+OpenReview social link. This meant several of the existing docs'
+factual claims — "no JavaScript anywhere," "light theme only," "system
+font stack, no Google Fonts," "inline SVG favicon, no separate file" —
+were no longer true. (Note: several of these commits landed *during*
+this very session, indicating another account/session was actively
+working on the site concurrently — re-fetched and re-read `index.html`
+before finalizing anything below to avoid documenting a stale state.)
+
+**What was done:**
+
+1. Re-read `index.html` in full (611 lines, up from ~250) and diffed
+   its actual behavior/markup against every claim in the 16 existing
+   docs.
+2. Ran `git status`, `git log --oneline`, and `git fetch origin`
+   (read-only) — confirmed working tree clean, HEAD `813e215`, up to
+   date with `origin/main`, 11 commits total.
+3. Scanned all tracked files (`git grep` for key/token/secret-like
+   patterns) — found no real secrets. The only "sensitive-looking"
+   values are the Vercel `projectId`/`orgId` quoted in `DEPLOYMENT.md`
+   (sourced from the gitignored `.vercel/project.json`) — these are
+   project identifiers, not auth credentials, so not treated as a
+   secret leak, but noted as a minor thing worth being aware of since
+   they're now in a public doc file.
+4. Corrected the stale technical claims in `CLAUDE.md`, `ARCHITECTURE.md`,
+   `FEATURES.md`, `SECURITY.md`, `DATABASE.md`, `TESTING.md`,
+   `DECISIONS.md`, `FILE_MAP.md`, `ROADMAP.md`, and `UI_SYSTEM.md` to
+   match the dark-theme/JS reality, and added the missing commit
+   history to `CHANGELOG.md`.
+5. Wrote `README.md` (the 17th canonical file, previously missing) with
+   a prominent supersession banner.
+6. Rewrote `PROJECT_STATE.md` and `TASKS.md` to reflect true current
+   git/repo state and to state the supersession flag clearly and
+   consistently.
+7. Rewrote `HANDOFF.md` with the supersession warning up top and a
+   refreshed "Prompt for the next Claude Code account" section that
+   explicitly tells a fresh session to check with the owner on the
+   supersession/deletion question before doing feature work.
+8. Did not delete anything, did not touch `index.html`/`photo.jpeg`/
+   `favicon.ico`, did not push.
+
+**State at end of session:** Documentation set is now 17/17 files, all
+internally consistent and matching the actual repo state. `main`
+branch, HEAD `813e215`, working tree clean before this session's doc
+commit. See `git log` for the exact commit this session produced.

@@ -10,13 +10,21 @@ explicitly *not* planned, so a future session doesn't accidentally
 None. The site is complete for its purpose (an online resume/portfolio
 link to share). No milestone is currently being worked toward.
 
+**Note:** this repo is flagged as possibly superseded by
+`~/Projects/gariyuu-web` (see `PROJECT_STATE.md`/`HANDOFF.md`). None of
+the ideas below should be started without first checking that question
+with the owner — no point roadmapping a repo that might be retired.
+
 ## Long-term ideas (not committed to, not scheduled)
 
 These are plausible, low-effort future additions if the owner ever
 wants them — none are requested or approved, listed only so a future
 session has context if asked to brainstorm:
 
-- A dark-mode toggle (the site currently has one fixed light theme).
+- A light-mode toggle/`prefers-color-scheme` support (the site was
+  reworked into one fixed dark "hacker" theme on 2026-08-07 — see
+  `DECISIONS.md`; there is currently no way to view it in a light
+  theme).
 - A second page (e.g. a longer project write-up, a blog) — would be the
   first time this repo becomes more than one page, and would be worth a
   `DECISIONS.md` entry if it happens (routing approach, whether to stay
