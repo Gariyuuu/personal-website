@@ -127,11 +127,12 @@
   }
 
   .flood-win {
-    position: absolute; width: 15rem; border: 1px solid rgba(255,255,255,.25);
-    background: rgba(0,0,0,.9); font-size: .6rem; box-shadow: 0 6px 20px rgba(0,0,0,.6);
+    position: absolute; display: flex; flex-direction: column; overflow: hidden;
+    border: 1px solid rgba(255,255,255,.25);
+    background: rgba(0,0,0,.95); font-size: .65rem; box-shadow: 0 6px 20px rgba(0,0,0,.6);
   }
   .flood-win .win-head {
-    display: flex; align-items: center; gap: 5px; padding: 5px 8px;
+    flex: none; display: flex; align-items: center; gap: 5px; padding: 5px 8px;
     border-bottom: 1px solid rgba(255,255,255,.2); background: rgba(255,255,255,.05);
   }
   .flood-win .win-dot { width: 6px; height: 6px; border-radius: 50%; }
@@ -139,16 +140,32 @@
   .flood-win .win-dot.d2 { background: rgba(255,255,255,.45); }
   .flood-win .win-dot.d3 { background: rgba(255,255,255,.25); }
   .flood-win .win-title { margin-left: 4px; color: rgba(255,255,255,.5); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .flood-win .win-body { min-height: 3.4em; padding: 8px; line-height: 1.35; color: rgba(255,255,255,.78); }
-  .flood-win .win-body p { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0; }
+  .flood-win .win-body { flex: 1; overflow: hidden; padding: 8px; line-height: 1.4; color: rgba(255,255,255,.78); }
+  .flood-win .win-body p { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0 0 3px; }
+
+  #boot.flood-shake { animation: bootFloodShake .35s infinite; }
+  @keyframes bootFloodShake {
+    0%, 100% { transform: translate(0, 0); }
+    10% { transform: translate(-2px, 1px); }
+    20% { transform: translate(2px, -1px); }
+    30% { transform: translate(-1px, -2px); }
+    40% { transform: translate(1px, 2px); }
+    50% { transform: translate(-2px, 0); }
+    60% { transform: translate(2px, 0); }
+    70% { transform: translate(0, -2px); }
+    80% { transform: translate(0, 2px); }
+    90% { transform: translate(-1px, 1px); }
+  }
 
   #boot.crash { animation: bootCrashFlicker .15s steps(1) infinite; }
   @keyframes bootCrashFlicker {
-    0%, 100% { background-color: #7a0000; }
-    20% { background-color: #b30000; }
-    40% { background-color: #5c0000; }
-    60% { background-color: #8f0000; }
-    80% { background-color: #400000; }
+    0%, 100% { background-color: #7a0000; transform: translate(0, 0); }
+    15% { background-color: #b30000; transform: translate(-6px, 4px); }
+    30% { background-color: #5c0000; transform: translate(6px, -4px); }
+    45% { background-color: #8f0000; transform: translate(-5px, -6px); }
+    60% { background-color: #400000; transform: translate(5px, 6px); }
+    75% { background-color: #b30000; transform: translate(-6px, 3px); }
+    90% { background-color: #5c0000; transform: translate(6px, -3px); }
   }
   .crash-line {
     color: #ffffff; font-weight: 700; letter-spacing: .2em; text-align: center;
@@ -401,12 +418,15 @@
   var hint = boot.querySelector('.hint');
 
   var FLOOD_WINDOWS = [
-    { title: 'root@10.0.4.17', style: 'top:6%;left:4%;transform:rotate(-2deg)' },
-    { title: 'proc/exploit', style: 'top:9%;right:5%;transform:rotate(1.5deg)' },
-    { title: 'net/scan', style: 'top:58%;left:3%;transform:rotate(1deg)' },
-    { title: 'shell#0x1F', style: 'bottom:8%;right:4%;transform:rotate(-1.5deg)' },
-    { title: 'session_7', style: 'top:36%;left:39%;transform:rotate(-1deg)' },
-    { title: 'sys/kernel', style: 'bottom:10%;left:22%;transform:rotate(2deg)' }
+    { title: 'root@10.0.4.17', style: 'top:1%;left:1%;width:32%;height:31vh;transform:rotate(-1deg)' },
+    { title: 'proc/exploit', style: 'top:1%;left:34%;width:32%;height:31vh;transform:rotate(0.8deg)' },
+    { title: 'net/scan', style: 'top:1%;left:67%;width:32%;height:31vh;transform:rotate(-0.6deg)' },
+    { title: 'shell#0x1F', style: 'top:34%;left:1%;width:32%;height:31vh;transform:rotate(0.7deg)' },
+    { title: 'session_7', style: 'top:34%;left:34%;width:32%;height:31vh;transform:rotate(-0.9deg)' },
+    { title: 'sys/kernel', style: 'top:34%;left:67%;width:32%;height:31vh;transform:rotate(0.6deg)' },
+    { title: 'auth/bypass', style: 'top:67%;left:1%;width:32%;height:31vh;transform:rotate(-0.7deg)' },
+    { title: 'db/dump', style: 'top:67%;left:34%;width:32%;height:31vh;transform:rotate(1deg)' },
+    { title: 'trace/wipe', style: 'top:67%;left:67%;width:32%;height:31vh;transform:rotate(-0.5deg)' }
   ];
 
   var BOOT_LINES = [
@@ -473,6 +493,7 @@
     linesEl.innerHTML = html;
     linesEl.style.display = '';
     floodEl.style.display = 'none';
+    boot.classList.remove('flood-shake');
     hint.style.display = '';
   }
 
@@ -484,7 +505,7 @@
       for (var i = 0; i < index; i++) {
         if (i % FLOOD_WINDOWS.length === w) lines.push(FLOOD_LINES[i]);
       }
-      lines = lines.slice(-5);
+      lines = lines.slice(-8);
       var body = '';
       for (var k = 0; k < lines.length; k++) {
         body += '<p>' + lines[k] + '</p>';
@@ -497,12 +518,14 @@
     floodEl.innerHTML = html;
     linesEl.style.display = 'none';
     floodEl.style.display = '';
+    boot.classList.add('flood-shake');
     hint.style.display = '';
   }
 
   function renderCrash() {
     hint.style.display = 'none';
     floodEl.style.display = 'none';
+    boot.classList.remove('flood-shake');
     var html = '';
     for (var i = 0; i < CRASH_LINES.length; i++) {
       var cls = i === 0 ? 'crash-line main' : 'crash-line sub';
@@ -568,6 +591,7 @@
   function finish() {
     phase = 'fading';
     boot.classList.remove('crash');
+    boot.classList.remove('flood-shake');
     boot.classList.add('fading');
     setTimeout(function () { phase = 'hidden'; boot.remove(); }, 500);
   }
