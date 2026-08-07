@@ -107,14 +107,16 @@
   @media print { nav { display: none; } canvas#rain { display: none; } }
 
   #boot {
-    position: fixed; inset: 0; z-index: 50; background: var(--bg);
+    position: fixed; inset: 0; z-index: 50; background: #000;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
     padding: 0 24px; cursor: pointer; transition: opacity .5s ease;
   }
   #boot.fading { opacity: 0; pointer-events: none; }
-  #boot .lines { width: 100%; max-width: 480px; font-size: .9rem; }
+  #boot .lines { width: 100%; max-width: 520px; font-size: .85rem; }
   #boot .lines p { margin-bottom: 6px; letter-spacing: .02em; }
   #boot .lines .prompt { color: var(--accent); }
+  #boot .lines .prompt-flood { color: var(--accent-2); }
+  #boot .lines p.flood { color: var(--muted); }
   #boot .cursor {
     display: inline-block; width: 8px; height: 14px; background: var(--accent);
     animation: pulse 1s step-end infinite; vertical-align: middle;
@@ -122,6 +124,34 @@
   #boot .hint {
     margin-top: 40px; font-size: .65rem; text-transform: uppercase;
     letter-spacing: .2em; color: var(--muted);
+  }
+
+  #boot.crash { animation: bootCrashFlicker .15s steps(1) infinite; }
+  @keyframes bootCrashFlicker {
+    0%, 100% { background-color: #7a0000; }
+    20% { background-color: #b30000; }
+    40% { background-color: #5c0000; }
+    60% { background-color: #8f0000; }
+    80% { background-color: #400000; }
+  }
+  .crash-line {
+    color: #ffffff; font-weight: 700; letter-spacing: .2em; text-align: center;
+    text-shadow: 2px 0 #000000, -2px 0 var(--accent-2);
+    animation: bootGlitchShake .12s infinite; margin-bottom: 8px;
+  }
+  .crash-line.main { font-size: 1.5rem; font-weight: 900; }
+  .crash-line.sub { font-size: .9rem; }
+  @keyframes bootGlitchShake {
+    0% { transform: translate(0, 0); }
+    25% { transform: translate(-3px, 2px); }
+    50% { transform: translate(3px, -2px); }
+    75% { transform: translate(-2px, -1px); }
+    100% { transform: translate(0, 0); }
+  }
+  .recover-line { color: var(--muted); letter-spacing: .2em; text-align: center; margin-bottom: 8px; }
+  .recover-line.welcome {
+    color: var(--accent); font-size: 1.3rem; font-weight: 700;
+    text-shadow: 0 0 6px rgba(0,255,140,.65), 0 0 18px rgba(0,255,140,.35);
   }
 </style>
 </head>
@@ -298,9 +328,12 @@
   var ctx = canvas.getContext('2d');
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  var chars = '0123456789';
-  var fontSize = 15;
+  var fontSize = 20;
   var columns, drops;
+
+  function randomNumber() {
+    return String(Math.floor(Math.random() * 100));
+  }
 
   function resize() {
     canvas.width = window.innerWidth;
@@ -317,19 +350,22 @@
   function draw() {
     requestAnimationFrame(draw);
     frame++;
-    if (frame % 2 !== 0) return;
+    if (frame % 4 !== 0) return;
 
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.07)';
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.font = fontSize + 'px "Share Tech Mono", monospace';
+    ctx.font = (fontSize - 4) + 'px "Share Tech Mono", monospace';
 
     for (var i = 0; i < columns; i++) {
-      var char = chars[Math.floor(Math.random() * chars.length)];
       var x = i * fontSize;
       var y = drops[i] * fontSize;
 
-      ctx.fillStyle = 'rgba(0, 255, 140, 0.85)';
-      ctx.fillText(char, x, y);
+      ctx.fillStyle = 'rgba(210, 210, 210, 0.75)';
+      ctx.fillText(randomNumber(), x, y);
+      ctx.fillStyle = 'rgba(120, 120, 120, 0.12)';
+      for (var t = 1; t <= 6; t++) {
+        ctx.fillText(randomNumber(), x, y - t * fontSize);
+      }
 
       if (y > canvas.height && Math.random() > 0.975) {
         drops[i] = 0;
@@ -344,55 +380,160 @@
 (function () {
   var boot = document.getElementById('boot');
   var linesEl = boot.querySelector('.lines');
-  var LINES = [
+  var hint = boot.querySelector('.hint');
+
+  var BOOT_LINES = [
     'GARY WANG — SYSTEM',
     'SITE INITIALIZING...',
     'LOADING PROFILE: EXPERIENCE, PROJECTS, EDUCATION...',
-    'MOUNTING RESUME DATA...',
-    'ACCESS GRANTED.'
+    'MOUNTING RESUME DATA...'
   ];
+  var FLOOD_LINES = [
+    'SCANNING NETWORK 10.0.0.0/8...',
+    'HOST 10.0.4.17 RESPONDING',
+    'PORT 22 OPEN — SSH HANDSHAKE INITIATED',
+    'PORT 443 OPEN — TLS FINGERPRINT MATCHED',
+    'PORT 3306 OPEN — MYSQL SERVICE DETECTED',
+    'FINGERPRINTING OS: LINUX 6.2.0-KALI',
+    'BRUTE FORCE: 4281/10000 KEYS TESTED',
+    'BRUTE FORCE: 8734/10000 KEYS TESTED',
+    'PASSWORD HASH CRACKED: 5f4dcc3b5aa765d6',
+    '0x4F3A9C1E -> 0x00FF8C -> 0x1A2B3C',
+    'DECRYPTING AES-256 KEYSTORE...',
+    'KEYSTORE UNLOCKED',
+    'INJECTING PAYLOAD [======----] 61%',
+    'INJECTING PAYLOAD [==========] 100%',
+    'BYPASSING FIREWALL RULE 0x12F...',
+    'FIREWALL RULE 0x12F DISABLED',
+    'ACCESS DENIED. RETRYING...',
+    'ACCESS DENIED. RETRYING...',
+    'ACCESS DENIED. RETRYING...',
+    'EXPLOIT CVE-2024-19832 MATCHED',
+    'EXPLOIT CVE-2023-44487 MATCHED',
+    'PRIVILEGE ESCALATION IN PROGRESS...',
+    'ROOT ACCESS GRANTED',
+    'DUMPING /etc/shadow...',
+    'DUMPING SESSION TOKENS...',
+    'EXFILTRATING DATA [==========] 100%',
+    'UPLOADING TO REMOTE HOST 185.23.44.6...',
+    'WARNING: INTRUSION DETECTED',
+    'WARNING: ADMIN NOTIFIED',
+    'COUNTERMEASURES ENGAGED',
+    'REROUTING THROUGH 14 PROXIES...',
+    'SPOOFING MAC ADDRESS...',
+    'WIPING BASH HISTORY...',
+    'CLEARING LOGS...',
+    'DISCONNECTING TRACE...',
+    'SIGNAL LOST'
+  ];
+  var CRASH_LINES = ['SYSTEM COMPROMISED', 'SYSTEM FAILURE', 'CONNECTION TERMINATED'];
+  var RECOVER_LINES = ['REBOOTING...', 'WELCOME BACK, GARY.'];
 
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     boot.remove();
     return;
   }
 
-  var shown = 0;
-  var skipped = false;
+  var phase = 'boot';
+  var index = 0;
 
-  function renderLines() {
+  function renderBootOrFlood() {
     var html = '';
-    for (var i = 0; i < shown; i++) {
-      html += '<p><span class="prompt">&gt;</span> ' + LINES[i] + '</p>';
+    if (phase === 'boot') {
+      for (var i = 0; i < index; i++) {
+        html += '<p><span class="prompt">&gt;</span> ' + BOOT_LINES[i] + '</p>';
+      }
+    } else {
+      var start = Math.max(0, index - 14);
+      for (var j = start; j < index; j++) {
+        html += '<p class="flood"><span class="prompt-flood">&gt;</span> ' + FLOOD_LINES[j] + '</p>';
+      }
     }
-    if (shown < LINES.length) html += '<span class="cursor"></span>';
+    html += '<span class="cursor"></span>';
+    linesEl.innerHTML = html;
+    linesEl.style.display = '';
+    hint.style.display = '';
+  }
+
+  function renderCrash() {
+    hint.style.display = 'none';
+    var html = '';
+    for (var i = 0; i < CRASH_LINES.length; i++) {
+      var cls = i === 0 ? 'crash-line main' : 'crash-line sub';
+      html += '<p class="' + cls + '">' + CRASH_LINES[i] + '</p>';
+    }
+    linesEl.innerHTML = html;
+    linesEl.style.display = '';
+    boot.classList.add('crash');
+  }
+
+  function renderRecover() {
+    boot.classList.remove('crash');
+    hint.style.display = 'none';
+    var html = '';
+    for (var i = 0; i < index; i++) {
+      var cls = i === RECOVER_LINES.length - 1 && index === RECOVER_LINES.length ? 'recover-line welcome' : 'recover-line';
+      html += '<p class="' + cls + '">' + RECOVER_LINES[i] + '</p>';
+    }
     linesEl.innerHTML = html;
   }
 
-  function step() {
-    if (skipped) shown = LINES.length;
-    else shown++;
-    renderLines();
-    if (shown >= LINES.length) {
-      setTimeout(finish, 450);
+  function tick() {
+    if (phase === 'fading' || phase === 'hidden') return;
+
+    if (phase === 'boot') {
+      index++;
+      renderBootOrFlood();
+      if (index >= BOOT_LINES.length) {
+        setTimeout(function () { if (phase === 'boot') { phase = 'flood'; index = 0; tick(); } }, 450);
+      } else {
+        setTimeout(tick, 380);
+      }
       return;
     }
-    setTimeout(step, 220);
+    if (phase === 'flood') {
+      index++;
+      renderBootOrFlood();
+      if (index >= FLOOD_LINES.length) {
+        setTimeout(function () { if (phase === 'flood') { phase = 'crash'; renderCrash(); tick(); } }, 250);
+      } else {
+        setTimeout(tick, 90);
+      }
+      return;
+    }
+    if (phase === 'crash') {
+      setTimeout(function () { if (phase === 'crash') { phase = 'recover'; index = 0; tick(); } }, 1300);
+      return;
+    }
+    if (phase === 'recover') {
+      if (index === 0) {
+        index = 1;
+        renderRecover();
+        setTimeout(tick, 500);
+      } else if (index === 1) {
+        index = 2;
+        renderRecover();
+        setTimeout(function () { if (phase === 'recover') { phase = 'fading'; finish(); } }, 750);
+      }
+      return;
+    }
   }
 
   function finish() {
+    phase = 'fading';
+    boot.classList.remove('crash');
     boot.classList.add('fading');
-    setTimeout(function () { boot.remove(); }, 500);
+    setTimeout(function () { phase = 'hidden'; boot.remove(); }, 500);
   }
 
   function skip() {
-    if (skipped) return;
-    skipped = true;
+    if (phase === 'fading' || phase === 'hidden') return;
+    finish();
   }
   boot.addEventListener('click', skip);
   window.addEventListener('keydown', skip);
 
-  setTimeout(step, 220);
+  setTimeout(tick, 220);
 })();
 </script>
 
