@@ -105,11 +105,34 @@
 
   footer { border-top: 1px solid var(--line); padding: 32px 0 0; color: var(--muted); font-size: .85rem; }
   @media print { nav { display: none; } canvas#rain { display: none; } }
+
+  #boot {
+    position: fixed; inset: 0; z-index: 50; background: var(--bg);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 0 24px; cursor: pointer; transition: opacity .5s ease;
+  }
+  #boot.fading { opacity: 0; pointer-events: none; }
+  #boot .lines { width: 100%; max-width: 480px; font-size: .9rem; }
+  #boot .lines p { margin-bottom: 6px; letter-spacing: .02em; }
+  #boot .lines .prompt { color: var(--accent); }
+  #boot .cursor {
+    display: inline-block; width: 8px; height: 14px; background: var(--accent);
+    animation: pulse 1s step-end infinite; vertical-align: middle;
+  }
+  #boot .hint {
+    margin-top: 40px; font-size: .65rem; text-transform: uppercase;
+    letter-spacing: .2em; color: var(--muted);
+  }
 </style>
 </head>
 <body>
 
 <canvas id="rain"></canvas>
+
+<div id="boot">
+  <div class="lines"></div>
+  <p class="hint">click / press any key to skip</p>
+</div>
 
 <nav>
   <div class="nav-inner">
@@ -316,6 +339,60 @@
     }
   }
   requestAnimationFrame(draw);
+})();
+
+(function () {
+  var boot = document.getElementById('boot');
+  var linesEl = boot.querySelector('.lines');
+  var LINES = [
+    'GARY WANG — SYSTEM',
+    'SITE INITIALIZING...',
+    'LOADING PROFILE: EXPERIENCE, PROJECTS, EDUCATION...',
+    'MOUNTING RESUME DATA...',
+    'ACCESS GRANTED.'
+  ];
+
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    boot.remove();
+    return;
+  }
+
+  var shown = 0;
+  var skipped = false;
+
+  function renderLines() {
+    var html = '';
+    for (var i = 0; i < shown; i++) {
+      html += '<p><span class="prompt">&gt;</span> ' + LINES[i] + '</p>';
+    }
+    if (shown < LINES.length) html += '<span class="cursor"></span>';
+    linesEl.innerHTML = html;
+  }
+
+  function step() {
+    if (skipped) shown = LINES.length;
+    else shown++;
+    renderLines();
+    if (shown >= LINES.length) {
+      setTimeout(finish, 450);
+      return;
+    }
+    setTimeout(step, 220);
+  }
+
+  function finish() {
+    boot.classList.add('fading');
+    setTimeout(function () { boot.remove(); }, 500);
+  }
+
+  function skip() {
+    if (skipped) return;
+    skipped = true;
+  }
+  boot.addEventListener('click', skip);
+  window.addEventListener('keydown', skip);
+
+  setTimeout(step, 220);
 })();
 </script>
 
