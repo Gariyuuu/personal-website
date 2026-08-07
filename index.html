@@ -126,6 +126,22 @@
     letter-spacing: .2em; color: var(--muted);
   }
 
+  .flood-win {
+    position: absolute; width: 15rem; border: 1px solid rgba(255,255,255,.25);
+    background: rgba(0,0,0,.9); font-size: .6rem; box-shadow: 0 6px 20px rgba(0,0,0,.6);
+  }
+  .flood-win .win-head {
+    display: flex; align-items: center; gap: 5px; padding: 5px 8px;
+    border-bottom: 1px solid rgba(255,255,255,.2); background: rgba(255,255,255,.05);
+  }
+  .flood-win .win-dot { width: 6px; height: 6px; border-radius: 50%; }
+  .flood-win .win-dot.d1 { background: rgba(255,255,255,.7); }
+  .flood-win .win-dot.d2 { background: rgba(255,255,255,.45); }
+  .flood-win .win-dot.d3 { background: rgba(255,255,255,.25); }
+  .flood-win .win-title { margin-left: 4px; color: rgba(255,255,255,.5); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .flood-win .win-body { min-height: 3.4em; padding: 8px; line-height: 1.35; color: rgba(255,255,255,.78); }
+  .flood-win .win-body p { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0; }
+
   #boot.crash { animation: bootCrashFlicker .15s steps(1) infinite; }
   @keyframes bootCrashFlicker {
     0%, 100% { background-color: #7a0000; }
@@ -161,6 +177,7 @@
 
 <div id="boot">
   <div class="lines"></div>
+  <div class="flood-windows" style="display:none"></div>
   <p class="hint">click / press any key to skip</p>
 </div>
 
@@ -380,7 +397,17 @@
 (function () {
   var boot = document.getElementById('boot');
   var linesEl = boot.querySelector('.lines');
+  var floodEl = boot.querySelector('.flood-windows');
   var hint = boot.querySelector('.hint');
+
+  var FLOOD_WINDOWS = [
+    { title: 'root@10.0.4.17', style: 'top:6%;left:4%;transform:rotate(-2deg)' },
+    { title: 'proc/exploit', style: 'top:9%;right:5%;transform:rotate(1.5deg)' },
+    { title: 'net/scan', style: 'top:58%;left:3%;transform:rotate(1deg)' },
+    { title: 'shell#0x1F', style: 'bottom:8%;right:4%;transform:rotate(-1.5deg)' },
+    { title: 'session_7', style: 'top:36%;left:39%;transform:rotate(-1deg)' },
+    { title: 'sys/kernel', style: 'bottom:10%;left:22%;transform:rotate(2deg)' }
+  ];
 
   var BOOT_LINES = [
     'GARY WANG — SYSTEM',
@@ -437,26 +464,45 @@
   var phase = 'boot';
   var index = 0;
 
-  function renderBootOrFlood() {
+  function renderBoot() {
     var html = '';
-    if (phase === 'boot') {
-      for (var i = 0; i < index; i++) {
-        html += '<p><span class="prompt">&gt;</span> ' + BOOT_LINES[i] + '</p>';
-      }
-    } else {
-      var start = Math.max(0, index - 14);
-      for (var j = start; j < index; j++) {
-        html += '<p class="flood"><span class="prompt-flood">&gt;</span> ' + FLOOD_LINES[j] + '</p>';
-      }
+    for (var i = 0; i < index; i++) {
+      html += '<p><span class="prompt">&gt;</span> ' + BOOT_LINES[i] + '</p>';
     }
     html += '<span class="cursor"></span>';
     linesEl.innerHTML = html;
     linesEl.style.display = '';
+    floodEl.style.display = 'none';
+    hint.style.display = '';
+  }
+
+  function renderFlood() {
+    var html = '';
+    for (var w = 0; w < FLOOD_WINDOWS.length; w++) {
+      var win = FLOOD_WINDOWS[w];
+      var lines = [];
+      for (var i = 0; i < index; i++) {
+        if (i % FLOOD_WINDOWS.length === w) lines.push(FLOOD_LINES[i]);
+      }
+      lines = lines.slice(-5);
+      var body = '';
+      for (var k = 0; k < lines.length; k++) {
+        body += '<p>' + lines[k] + '</p>';
+      }
+      html += '<div class="flood-win" style="' + win.style + '">' +
+        '<div class="win-head"><span class="win-dot d1"></span><span class="win-dot d2"></span>' +
+        '<span class="win-dot d3"></span><span class="win-title">' + win.title + '</span></div>' +
+        '<div class="win-body">' + body + '</div></div>';
+    }
+    floodEl.innerHTML = html;
+    linesEl.style.display = 'none';
+    floodEl.style.display = '';
     hint.style.display = '';
   }
 
   function renderCrash() {
     hint.style.display = 'none';
+    floodEl.style.display = 'none';
     var html = '';
     for (var i = 0; i < CRASH_LINES.length; i++) {
       var cls = i === 0 ? 'crash-line main' : 'crash-line sub';
@@ -483,7 +529,7 @@
 
     if (phase === 'boot') {
       index++;
-      renderBootOrFlood();
+      renderBoot();
       if (index >= BOOT_LINES.length) {
         setTimeout(function () { if (phase === 'boot') { phase = 'flood'; index = 0; tick(); } }, 450);
       } else {
@@ -493,7 +539,7 @@
     }
     if (phase === 'flood') {
       index++;
-      renderBootOrFlood();
+      renderFlood();
       if (index >= FLOOD_LINES.length) {
         setTimeout(function () { if (phase === 'flood') { phase = 'crash'; renderCrash(); tick(); } }, 250);
       } else {
