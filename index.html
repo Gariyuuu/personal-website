@@ -5,67 +5,90 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Gary Wang</title>
 <meta name="description" content="Gary Wang — Statistics & Economics student at UC Berkeley, machine learning researcher.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%231d4ed8'/%3E%3Ctext x='50' y='67' font-size='46' font-family='Helvetica,Arial,sans-serif' font-weight='700' fill='white' text-anchor='middle'%3EGW%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
   :root {
-    --text: #1a1a1a;
-    --muted: #666a70;
-    --line: #e8e8e8;
-    --accent: #1d4ed8;
-    --bg: #ffffff;
+    --text: #d7f5df;
+    --muted: #5f7a68;
+    --line: #16241a;
+    --accent: #00ff8c;
+    --accent-2: #00e5ff;
+    --bg: #000000;
+    --surface: #060a07;
     --maxw: 720px;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
   body {
     background: var(--bg); color: var(--text);
-    font: 17px/1.7 "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    font: 16px/1.7 "Share Tech Mono", ui-monospace, "SF Mono", Menlo, monospace;
     -webkit-font-smoothing: antialiased;
+    letter-spacing: .01em;
   }
   a { color: var(--accent); text-decoration: none; }
-  a:hover { text-decoration: underline; }
+  a:hover { text-decoration: underline; color: var(--accent-2); }
+
+  canvas#rain {
+    position: fixed; inset: 0; z-index: 0;
+    pointer-events: none; opacity: .4;
+  }
 
   nav {
-    position: sticky; top: 0; background: rgba(255,255,255,.92);
-    backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); z-index: 10;
+    position: sticky; top: 0; z-index: 10; background: rgba(0,0,0,.85);
+    backdrop-filter: blur(8px); border-bottom: 1px solid var(--line);
   }
   .nav-inner {
     max-width: var(--maxw); margin: 0 auto; padding: 14px 24px;
     display: flex; align-items: center; gap: 18px; overflow-x: auto;
   }
-  .nav-inner .name { font-weight: 700; color: var(--text); margin-right: auto; letter-spacing: -.01em; white-space: nowrap; }
-  .nav-inner a.link { color: var(--muted); font-size: .92rem; white-space: nowrap; }
-  .nav-inner a.link:hover { color: var(--text); text-decoration: none; }
+  .nav-inner .name {
+    font-weight: 700; color: var(--text); margin-right: auto;
+    letter-spacing: .08em; white-space: nowrap; text-transform: uppercase;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .nav-inner .name .dot {
+    width: 8px; height: 8px; border-radius: 50%; background: var(--accent);
+    box-shadow: 0 0 8px var(--accent); animation: pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
+  .nav-inner a.link { color: var(--muted); font-size: .88rem; white-space: nowrap; letter-spacing: .04em; }
+  .nav-inner a.link:hover { color: var(--accent); text-decoration: none; }
 
-  main { max-width: var(--maxw); margin: 0 auto; padding: 0 24px 80px; }
+  main { position: relative; z-index: 1; max-width: var(--maxw); margin: 0 auto; padding: 0 24px 80px; }
 
   header.hero { padding: 72px 0 56px; display: flex; gap: 36px; align-items: center; flex-wrap: wrap; }
   .avatar {
     width: 150px; height: 150px; border-radius: 50%; flex: none;
-    background: #f0f1f3 url('photo.jpeg') center/cover no-repeat;
-    border: 1px solid var(--line);
-    display: flex; align-items: center; justify-content: center;
-    color: var(--muted); font-size: .8rem; text-align: center;
+    background: var(--surface) url('photo.jpeg') center/cover no-repeat;
+    border: 1px solid var(--accent);
+    box-shadow: 0 0 20px rgba(0,255,140,.25);
   }
-  .hero h1 { font-size: 2.3rem; letter-spacing: -.02em; line-height: 1.15; margin-bottom: 8px; }
-  .hero .headline { font-size: 1.15rem; color: var(--muted); margin-bottom: 16px; }
-  .social { display: flex; gap: 14px; align-items: center; }
+  .hero h1 {
+    font-size: 2.1rem; letter-spacing: .04em; line-height: 1.15; margin-bottom: 8px;
+    text-shadow: 0 0 12px rgba(0,255,140,.45);
+  }
+  .hero .headline { font-size: 1.02rem; color: var(--muted); margin-bottom: 16px; }
+  .social { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
   .social a { color: var(--muted); display: inline-flex; }
   .social a:hover { color: var(--accent); }
-  .social svg { width: 22px; height: 22px; fill: currentColor; }
+  .social svg { width: 20px; height: 20px; fill: currentColor; }
 
   section { padding: 40px 0; border-top: 1px solid var(--line); }
   section h2 {
-    font-size: .85rem; text-transform: uppercase; letter-spacing: .12em;
-    color: var(--muted); margin-bottom: 24px;
+    font-size: .82rem; text-transform: uppercase; letter-spacing: .2em;
+    color: var(--accent); margin-bottom: 24px;
   }
+  section h2::before { content: "// "; color: var(--muted); }
   section p + p { margin-top: 14px; }
 
   .item { display: grid; grid-template-columns: 150px 1fr; gap: 8px 24px; padding: 14px 0; }
-  .item .when { color: var(--muted); font-size: .92rem; padding-top: 2px; }
-  .item h3 { font-size: 1.05rem; font-weight: 600; }
-  .item .org { color: var(--muted); font-size: .95rem; margin-bottom: 6px; }
-  .item ul { padding-left: 18px; color: #3a3f45; font-size: .97rem; }
+  .item .when { color: var(--muted); font-size: .88rem; padding-top: 2px; }
+  .item h3 { font-size: 1.02rem; font-weight: 700; color: var(--text); }
+  .item .org { color: var(--muted); font-size: .92rem; margin-bottom: 6px; }
+  .item ul { padding-left: 18px; color: #a9c9b2; font-size: .93rem; }
   .item li { margin: 4px 0; }
   @media (max-width: 560px) {
     .item { grid-template-columns: 1fr; }
@@ -74,21 +97,23 @@
 
   .skills { display: grid; gap: 10px; }
   .skills .row { display: flex; gap: 12px; flex-wrap: wrap; align-items: baseline; }
-  .skills .label { font-weight: 600; font-size: .95rem; flex: none; width: 110px; }
-  .skills .vals { color: #3a3f45; font-size: .97rem; }
+  .skills .label { font-weight: 700; font-size: .92rem; flex: none; width: 110px; color: var(--accent-2); }
+  .skills .vals { color: #a9c9b2; font-size: .93rem; }
 
-  .honors { padding-left: 18px; color: #3a3f45; font-size: .97rem; }
+  .honors { padding-left: 18px; color: #a9c9b2; font-size: .93rem; }
   .honors li { margin: 8px 0; }
 
-  footer { border-top: 1px solid var(--line); padding: 32px 0 0; color: var(--muted); font-size: .9rem; }
-  @media print { nav { display: none; } }
+  footer { border-top: 1px solid var(--line); padding: 32px 0 0; color: var(--muted); font-size: .85rem; }
+  @media print { nav { display: none; } canvas#rain { display: none; } }
 </style>
 </head>
 <body>
 
+<canvas id="rain"></canvas>
+
 <nav>
   <div class="nav-inner">
-    <span class="name">Gary Wang</span>
+    <span class="name"><span class="dot"></span>Gary Wang</span>
     <a class="link" href="#about">About</a>
     <a class="link" href="#experience">Experience</a>
     <a class="link" href="#projects">Projects</a>
@@ -111,6 +136,9 @@
         </a>
         <a href="https://www.linkedin.com/in/gary-wang-a912a0308/" aria-label="LinkedIn" title="LinkedIn">
           <svg viewBox="0 0 24 24"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.55C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.72C24 .77 23.2 0 22.22 0z"/></svg>
+        </a>
+        <a href="https://openreview.net/profile?id=~Shengyi_Wang5" aria-label="OpenReview" title="OpenReview">
+          <svg viewBox="0 0 24 24"><path d="M4 2h12l4 4v16H4V2zm11 1.5V7h3.5L15 3.5zM7 11h10v1.5H7V11zm0 3.5h10V16H7v-1.5zM7 18h6.5v1.5H7V18z"/></svg>
         </a>
         <a href="mailto:gywng006@gmail.com" aria-label="Email" title="Email">
           <svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4.24-8 5-8-5V6.5l8 5 8-5v1.74z"/></svg>
@@ -233,13 +261,63 @@
 
   <section id="contact">
     <h2>Contact</h2>
-    <p>The best way to reach me is by email at <a href="mailto:gywng006@gmail.com">gywng006@gmail.com</a>, or connect with me on <a href="https://www.linkedin.com/in/gary-wang-a912a0308/">LinkedIn</a>. You can also check out my code on <a href="https://github.com/Gariyuuu">GitHub</a>.</p>
+    <p>The best way to reach me is by email at <a href="mailto:gywng006@gmail.com">gywng006@gmail.com</a>, or connect with me on <a href="https://www.linkedin.com/in/gary-wang-a912a0308/">LinkedIn</a>. You can also check out my code on <a href="https://github.com/Gariyuuu">GitHub</a> or my published research on <a href="https://openreview.net/profile?id=~Shengyi_Wang5">OpenReview</a>.</p>
   </section>
 
   <footer>
     <p>© 2026 Gary Wang</p>
   </footer>
 </main>
+
+<script>
+(function () {
+  var canvas = document.getElementById('rain');
+  var ctx = canvas.getContext('2d');
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var chars = '0123456789';
+  var fontSize = 15;
+  var columns, drops;
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    columns = Math.floor(canvas.width / fontSize);
+    drops = Array.from({ length: columns }, function () {
+      return Math.floor(Math.random() * canvas.height / fontSize);
+    });
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  var frame = 0;
+  function draw() {
+    requestAnimationFrame(draw);
+    frame++;
+    if (frame % 2 !== 0) return;
+
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.07)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.font = fontSize + 'px "Share Tech Mono", monospace';
+
+    for (var i = 0; i < columns; i++) {
+      var char = chars[Math.floor(Math.random() * chars.length)];
+      var x = i * fontSize;
+      var y = drops[i] * fontSize;
+
+      ctx.fillStyle = 'rgba(0, 255, 140, 0.85)';
+      ctx.fillText(char, x, y);
+
+      if (y > canvas.height && Math.random() > 0.975) {
+        drops[i] = 0;
+      } else {
+        drops[i]++;
+      }
+    }
+  }
+  requestAnimationFrame(draw);
+})();
+</script>
 
 </body>
 </html>
