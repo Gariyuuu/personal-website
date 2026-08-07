@@ -33,7 +33,7 @@
 
   canvas#rain {
     position: fixed; inset: 0; z-index: 0;
-    pointer-events: none; opacity: .4;
+    pointer-events: none; opacity: .5;
   }
 
   nav {
@@ -142,6 +142,27 @@
   .flood-win .win-title { margin-left: 4px; color: rgba(255,255,255,.5); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .flood-win .win-body { flex: 1; overflow: hidden; padding: 8px; line-height: 1.4; color: rgba(255,255,255,.78); }
   .flood-win .win-body p { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0 0 3px; }
+
+  .popup-win {
+    position: absolute; width: 14rem; border: 2px solid #fff; background: #f0f0f0;
+    color: #000; box-shadow: 0 10px 30px rgba(0,0,0,.7);
+  }
+  .popup-win .popup-head {
+    display: flex; align-items: center; justify-content: space-between;
+    background: #000; color: #fff; font-size: .6rem; font-weight: 700;
+    padding: 3px 6px;
+  }
+  .popup-win .popup-close {
+    display: flex; align-items: center; justify-content: center;
+    width: 13px; height: 13px; border: 1px solid #fff; background: #555;
+    font-size: .55rem; line-height: 1;
+  }
+  .popup-win .popup-body { padding: 8px; font-size: .6rem; line-height: 1.35; }
+  .popup-win .popup-ok {
+    display: inline-block; margin-top: 6px; float: right;
+    border: 1px solid #000; background: #ccc; padding: 1px 10px;
+    font-size: .55rem; font-weight: 700; box-shadow: 1px 1px 0 #000;
+  }
 
   #boot.flood-shake { animation: bootFloodShake .35s infinite; }
   @keyframes bootFloodShake {
@@ -362,7 +383,7 @@
   var ctx = canvas.getContext('2d');
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  var fontSize = 20;
+  var fontSize = 13;
   var columns, drops;
 
   function randomNumber() {
@@ -380,28 +401,25 @@
   resize();
   window.addEventListener('resize', resize);
 
-  var frame = 0;
   function draw() {
     requestAnimationFrame(draw);
-    frame++;
-    if (frame % 4 !== 0) return;
 
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.035)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.font = (fontSize - 4) + 'px "Share Tech Mono", monospace';
+    ctx.font = (fontSize - 2) + 'px "Share Tech Mono", monospace';
 
     for (var i = 0; i < columns; i++) {
       var x = i * fontSize;
       var y = drops[i] * fontSize;
 
-      ctx.fillStyle = 'rgba(210, 210, 210, 0.75)';
+      ctx.fillStyle = 'rgba(220, 220, 220, 0.85)';
       ctx.fillText(randomNumber(), x, y);
-      ctx.fillStyle = 'rgba(120, 120, 120, 0.12)';
-      for (var t = 1; t <= 6; t++) {
+      ctx.fillStyle = 'rgba(140, 140, 140, 0.22)';
+      for (var t = 1; t <= 14; t++) {
         ctx.fillText(randomNumber(), x, y - t * fontSize);
       }
 
-      if (y > canvas.height && Math.random() > 0.975) {
+      if (y > canvas.height && Math.random() > 0.96) {
         drops[i] = 0;
       } else {
         drops[i]++;
@@ -427,6 +445,17 @@
     { title: 'auth/bypass', style: 'top:67%;left:1%;width:32%;height:31vh;transform:rotate(-0.7deg)' },
     { title: 'db/dump', style: 'top:67%;left:34%;width:32%;height:31vh;transform:rotate(1deg)' },
     { title: 'trace/wipe', style: 'top:67%;left:67%;width:32%;height:31vh;transform:rotate(-0.5deg)' }
+  ];
+
+  var POPUPS = [
+    { title: 'System Error', message: 'A fatal exception 0E has occurred at 0028:C0011E36.', style: 'top:6%;left:12%;transform:rotate(-3deg)' },
+    { title: 'Warning', message: 'Virus detected in C:\\WINDOWS\\SYSTEM32\\', style: 'top:14%;left:58%;transform:rotate(2deg)' },
+    { title: 'Access Denied', message: 'You do not have permission to perform this action.', style: 'top:42%;left:22%;transform:rotate(-2deg)' },
+    { title: 'Critical Alert', message: 'Unauthorized access detected on this machine.', style: 'top:50%;left:62%;transform:rotate(3deg)' },
+    { title: 'Security Warning', message: 'Firewall has been disabled remotely.', style: 'top:66%;left:10%;transform:rotate(-1deg)' },
+    { title: 'Error', message: 'The application has encountered an unknown error.', style: 'top:72%;left:52%;transform:rotate(2deg)' },
+    { title: 'Intruder Alert', message: 'Multiple failed login attempts detected.', style: 'top:26%;left:76%;transform:rotate(-2deg)' },
+    { title: 'System32', message: 'Deleting critical system files...', style: 'top:84%;left:32%;transform:rotate(1deg)' }
   ];
 
   var BOOT_LINES = [
@@ -514,6 +543,13 @@
         '<div class="win-head"><span class="win-dot d1"></span><span class="win-dot d2"></span>' +
         '<span class="win-dot d3"></span><span class="win-title">' + win.title + '</span></div>' +
         '<div class="win-body">' + body + '</div></div>';
+    }
+    var popupCount = Math.min(POPUPS.length, Math.floor(index / 3));
+    for (var p = 0; p < popupCount; p++) {
+      var pop = POPUPS[p];
+      html += '<div class="popup-win" style="' + pop.style + '">' +
+        '<div class="popup-head"><span>' + pop.title + '</span><span class="popup-close">&times;</span></div>' +
+        '<div class="popup-body">' + pop.message + '<span class="popup-ok">OK</span></div></div>';
     }
     floodEl.innerHTML = html;
     linesEl.style.display = 'none';
