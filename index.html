@@ -79,6 +79,25 @@
     font-size: 2.1rem; letter-spacing: .04em; line-height: 1.15; margin-bottom: 8px;
     text-shadow: 0 0 12px rgba(0,255,140,.45);
   }
+  /*
+   * Adapted from CSS Text Effects' "Phosphor / CRT_Mode" (text-effects.colorion.co, MIT).
+   * The source effect's flicker dips to opacity .82 and layers a fairly dark (alpha .38)
+   * scanline overlay directly over the glyphs — fine at its original 26px demo size, but
+   * this is going on the page's h1 name, so both were toned way down: opacity never drops
+   * below .96 and the scanline alpha is .08, so "Gary Wang" stays legible at every frame,
+   * not just on average.
+   */
+  .hero h1.fx-crt { position: relative; animation: fx-crt-flicker 3.4s steps(1) infinite; }
+  .hero h1.fx-crt::after {
+    content: ""; position: absolute; inset: -2px -6px; pointer-events: none;
+    background: repeating-linear-gradient(0deg, transparent 0 3px, rgba(0,0,0,.08) 3px 6px);
+    animation: fx-crt-roll 6s linear infinite;
+  }
+  @keyframes fx-crt-flicker { 0%, 6%, 100% { opacity: 1; } 3% { opacity: .96; } 70% { opacity: .98; } 71% { opacity: 1; } }
+  @keyframes fx-crt-roll { to { background-position: 0 48px; } }
+  @media (prefers-reduced-motion: reduce) {
+    .hero h1.fx-crt, .hero h1.fx-crt::after { animation: none; }
+  }
   .hero .headline { font-size: 1.02rem; color: var(--muted); margin-bottom: 16px; }
   .social { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
   .social a { color: var(--muted); display: inline-flex; }
@@ -246,7 +265,7 @@
   <header class="hero">
     <div class="avatar"></div>
     <div>
-      <h1>Gary Wang</h1>
+      <h1 class="fx-crt">Gary Wang</h1>
       <p class="headline">Statistics &amp; Economics student at UC Berkeley · Business Analyst &amp; Machine Learning Researcher</p>
       <div class="social">
         <a href="https://github.com/Gariyuuu" aria-label="GitHub" title="GitHub">
