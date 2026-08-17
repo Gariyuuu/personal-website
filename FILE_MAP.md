@@ -15,7 +15,7 @@ set) and 1 gitignored directory, so this map is intentionally short.
   2026-08-07 dark hacker-theme rework — see `DECISIONS.md`/
   `CHANGELOG.md`).
 - **Structure inside the file:**
-  - `<head>`: charset/viewport meta, `<title>`, description meta tag, a
+  - `<head>`: charset/viewport meta, the title tag, description meta tag, a
     real favicon link (`<link rel="icon" href="favicon.ico">`), Google
     Fonts preconnect + stylesheet tags for `Share Tech Mono`, and the
     entire `<style>` block.
@@ -70,7 +70,7 @@ set) and 1 gitignored directory, so this map is intentionally short.
   link` (or the first `vercel` deploy). Confirms this directory is tied
   to a specific Vercel project.
 - **Contents:**
-  - `project.json` — `{"projectId": "prj_...", "orgId": "team_...",
+  - `.vercel/project.json` — `{"projectId": "prj_...", "orgId": "team_...",
     "projectName": "personal-website"}`. Identifies the Vercel project
     this local checkout deploys to.
   - `README.txt` — Vercel's own auto-generated explanation of the

@@ -15,8 +15,11 @@ partial/broken features were found.
 | Favicon (browser tab icon) | Implemented | `index.html` `<link rel="icon" href="favicon.ico">`, a real committed file — earlier commit `f344976` used an inline `data:` SVG instead; that was later replaced by this file |
 | Smooth scroll to anchors | Implemented | `index.html` `html { scroll-behavior: smooth; }` |
 | Full-screen canvas "digital rain" background effect | Implemented, added 2026-08-07 | `<canvas id="rain">` + the first `<script>` IIFE; respects `prefers-reduced-motion` (returns early, no canvas draw) |
-| Skippable terminal boot/hack-intro animation on load | Implemented, added 2026-08-07 | `<div id="boot">` + the second `<script>` IIFE; phases through a boot-text sequence, a scattered fake "flood" of terminal windows, a red "crash" screen, then a "reboot"/welcome message before removing itself; click or any keypress skips straight to removal; respects `prefers-reduced-motion` (removes itself immediately) |
+| Skippable terminal boot/hack-intro animation on load | Implemented, added 2026-08-07 | `<div id="boot">` + the second `<script>` IIFE; phases through a boot-text sequence, a scattered fake "flood" of terminal windows **plus, added 2026-08-07 in `e5b5a58`/`ac22770`, up to 8 cascading fake OS error/warning popup dialogs** (System Error, Virus Detected, Access Denied, etc. — `.popup-win`, `POPUPS` array, `renderFlood()`), a red "crash" screen, then a "reboot"/welcome message before removing itself; click or any keypress skips straight to removal; respects `prefers-reduced-motion` (removes itself immediately) |
+| Matrix rain speed easing | Implemented, added 2026-08-07 (`e5b5a58`/`ac22770`) | `window.__rainFast` flag, `FAST`/`SLOW` settings objects — rain runs dense/full-speed during the boot intro, then eases to a calmer, more readable pace once boot finishes (flag flipped to `false` at the end of the boot script) |
 | Google Fonts webfont (`Share Tech Mono`) | Implemented, added 2026-08-07 | `<link rel="preconnect">`/`<link rel="stylesheet">` tags in `<head>` — the one external network request this page makes |
+| OpenGraph + Twitter Card meta tags | Implemented, added 2026-08-13 (`7dd923c`) | `<head>` — `og:title`/`og:description`/`og:image`/`og:url`/`og:type`, `twitter:card`/`title`/`description`/`image`; `og:image`/`og:url` point at `https://personal-website-delta-plum.vercel.app`, live-verified 2026-08-17 (200 OK) |
+| CRT/phosphor flicker on hero name | Implemented, added 2026-08-15 (`4c11b1f`) | `.hero h1.fx-crt` — subtle opacity flicker (floor `.96`) + low-alpha scanline overlay; adapted from a third-party MIT source (`text-effects.colorion.co`, per the code comment in `index.html`); respects `prefers-reduced-motion` |
 
 ## Hero section
 
@@ -48,9 +51,11 @@ partial/broken features were found.
   links only).
 - No blog, no additional pages, no client-side routing.
 - No analytics/tracking.
-- No animations beyond CSS `:hover`/smooth-scroll and the two
-  JS-driven effects listed in "Page-level" above (canvas rain, boot
-  intro) — both purely visual, no logic beyond the animation itself.
+- No animations beyond CSS `:hover`/smooth-scroll, the CSS-only CRT
+  flicker on the hero name, and the JS-driven effects listed in
+  "Page-level" above (canvas rain + speed easing, boot intro + popup
+  spam) — all purely visual, no logic beyond the animation itself, no
+  user input processed, nothing sent anywhere.
 
 If any of the above is ever wanted, treat it as new scope — see
 `ROADMAP.md` → "Out of scope" for the same list framed as explicit

@@ -80,15 +80,27 @@ sign that the documentation is incomplete.
 
 ## Current status
 
+**2026-08-17 update [Verified], documentation sweep (no feature work):**
+Current task `T-001` (see `TASKS.md`) is the supersession question
+below — still unresolved. This sweep found and documented two feature
+commits (`e5b5a58`/`ac22770`, 2026-08-07 — Windows-style popup-spam
+dialogs + rain speed-easing during boot) that had landed after the
+prior doc refresh and were undocumented until now, plus OG/Twitter meta
+tags (`7dd923c`) and a hero CRT flicker effect (`4c11b1f`), both
+live-verified against `https://personal-website-delta-plum.vercel.app/`
+this sweep. `index.html` is now 687 lines. Branch `main`, HEAD
+`3747f05`, tree clean, all feature branches merged. Full detail in
+`PROJECT_STATE.md`'s 2026-08-17 block.
+
 See `PROJECT_STATE.md` for the exact, timestamped snapshot. Summary:
 
 - The site is complete, working, and the working tree is **clean**
   (nothing uncommitted, nothing untracked) as of the 2026-08-06 audit.
-- **Current blockers:** None.
-- **Highest-priority next task:** None queued. This is a maintenance-only
-  project — the only "next actions" are content updates (resume
-  changes) or optional low-effort hygiene items noted in `TASKS.md` /
-  `PROJECT_STATE.md`.
+- **Current blockers:** `T-001` — the supersession question, unresolved.
+- **Highest-priority next task:** Get the owner's answer on `T-001`.
+  Beyond that, this is a maintenance-only project — the only other
+  "next actions" are content updates (resume changes) or optional
+  low-effort hygiene items noted in `TASKS.md` / `PROJECT_STATE.md`.
 
 ## Technology stack
 

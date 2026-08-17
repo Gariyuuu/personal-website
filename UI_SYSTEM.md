@@ -83,8 +83,21 @@ places each.
   the name in the nav, animated via a `pulse` `@keyframes` rule.
 - The boot overlay uses additional one-off colors for its phases:
   green/cyan for the normal boot text, white/gray "terminal window"
-  panels for the fake "flood" phase, and a red flicker
-  (`bootCrashFlicker` `@keyframes`) for the "crash" phase.
+  panels for the fake "flood" phase (**plus, added 2026-08-07, up to 8
+  cascading fake OS error/warning popup dialogs** — `.popup-win`,
+  styled as classic Windows-style dialog boxes with a title bar and OK
+  button — layered on top of the terminal windows during the flood
+  phase), and a red flicker (`bootCrashFlicker` `@keyframes`) for the
+  "crash" phase.
+- **Added 2026-08-15:** a subtle CRT/phosphor flicker on the hero
+  `<h1>` (`.fx-crt` class) — opacity dips no lower than `.96` (`
+  fx-crt-flicker` `@keyframes`) plus a low-alpha (`.08`) repeating
+  scanline gradient overlay (`::after`, `fx-crt-roll` `@keyframes`).
+  Explicitly adapted from a third-party MIT-licensed source
+  (`text-effects.colorion.co`'s "Phosphor / CRT_Mode"), toned down
+  from the original's opacity floor (`.82`) and scanline alpha (`.38`)
+  so the name stays legible at every frame, per the code comment in
+  `index.html`.
 
 ## Responsive behavior
 
@@ -114,14 +127,23 @@ before a user would print, so it isn't a print-time concern.)
 
 ## Motion / animation
 
-- `canvas#rain`: continuous animation via `requestAnimationFrame`,
-  redrawn every 4th frame. Returns early (never starts) if
+- `canvas#rain`: continuous animation via `requestAnimationFrame`.
+  **Updated 2026-08-07 (`e5b5a58`/`ac22770`):** speed/density now eases
+  between two presets via a shared `window.__rainFast` flag — `FAST`
+  (`throttle: 1` i.e. no frame skip, `fadeAlpha: .035`, denser trails)
+  while the boot sequence plays, easing to `SLOW` (`throttle: 6`,
+  `fadeAlpha: .09`, sparser trails) once boot finishes, for a calmer
+  post-intro pace. Returns early (never starts) if
   `prefers-reduced-motion: reduce` is set.
 - `#boot` sequence: a scripted, timed sequence of phases (boot text →
-  flood of fake terminal windows with a screen-shake effect → red
-  "crash" flicker → "reboot"/welcome text → fade out and DOM removal).
-  If `prefers-reduced-motion: reduce` is set, the overlay is removed
+  flood of fake terminal windows **plus cascading popup-spam dialogs,
+  added 2026-08-07** with a screen-shake effect → red "crash" flicker →
+  "reboot"/welcome text → fade out and DOM removal). If
+  `prefers-reduced-motion: reduce` is set, the overlay is removed
   immediately instead of playing.
+- `.fx-crt` (hero `<h1>`, added 2026-08-15): CSS-only flicker +
+  scanline overlay, see "Color usage" above. Disabled under
+  `prefers-reduced-motion: reduce`.
 - A `pulse` `@keyframes` rule drives the small status dot in the nav
   and the boot cursor's blink.
 

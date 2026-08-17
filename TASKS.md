@@ -14,10 +14,29 @@ rework). **Check with the owner on the supersession/deletion question
 before queuing or starting non-trivial new feature work here.** See
 `PROJECT_STATE.md` and `HANDOFF.md` for the full framing.
 
-## Current task
+## Current task: `T-001` (blocked: get the owner's answer first)
 
-None. Nothing is in progress as of this 2026-08-07 refresh. The tree is
-clean at commit `813e215`.
+`T-001` **is** the standing supersession/deletion question below — it
+has been open since the 2026-08-07 refresh and is still unresolved as
+of this 2026-08-17 documentation sweep (which did not attempt to
+resolve it, only re-verified the code against the docs). Ask the owner
+directly whether to keep developing `personal-website`, freeze it
+as-is, or delete it in favor of `~/Projects/gariyuu-web` (see
+`HANDOFF.md`'s "Prompt for the next Claude Code account"). Until
+answered, treat any non-trivial feature work here as blocked on that
+answer — trivial content-accuracy fixes and documentation are fine.
+
+Separately (documentation-only, now resolved by this sweep): two
+feature commits (`e5b5a58`/`ac22770`, 2026-08-07) had landed **after**
+the previous doc refresh was written and were never documented until
+now — Windows-style popup-spam dialogs + rain speed-easing during the
+boot sequence. Also landed since: OG/Twitter meta tags (`7dd923c`) and
+a CRT flicker effect on the hero heading (`4c11b1f`) — both
+live-verified this sweep (`curl` against
+`https://personal-website-delta-plum.vercel.app/` → 200, `/photo.jpeg`
+→ 200, matching `index.html`'s `og:image` URL). All now documented in
+`PROJECT_STATE.md`'s 2026-08-17 block, `FEATURES.md`, `UI_SYSTEM.md`.
+Tree is clean at `3747f05`, all branches merged.
 
 ## Next up
 

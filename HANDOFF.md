@@ -3,6 +3,21 @@
 You are picking up **personal-website** with no memory of any prior
 conversation. This file is your fastest path to being useful.
 
+## 2026-08-17 update [Verified] — documentation sweep, no feature work
+
+Current task `T-001` is still the supersession question below —
+unresolved, not addressed by this sweep. What this sweep did find and
+fix: two feature commits (`e5b5a58`/`ac22770`, 2026-08-07 — Windows-style
+popup-spam dialogs + rain speed-easing during the boot sequence) had
+landed **after** the prior doc refresh and were completely
+undocumented until now. Also landed since the prior refresh: OG/Twitter
+meta tags (`7dd923c`) and a CRT flicker effect on the hero heading
+(`4c11b1f`) — both live-verified against
+`https://personal-website-delta-plum.vercel.app/` this sweep (200 OK,
+`/photo.jpeg` resolves matching `og:image`). `index.html` is now 687
+lines. Branch `main`, HEAD `3747f05`, tree clean, all feature branches
+merged. Full detail in `PROJECT_STATE.md`'s 2026-08-17 block.
+
 ## ⚠️ Read this before anything else
 
 A prior cross-repo inventory audit flagged this project as **likely

@@ -125,3 +125,39 @@ before finalizing anything below to avoid documenting a stale state.)
 internally consistent and matching the actual repo state. `main`
 branch, HEAD `813e215`, working tree clean before this session's doc
 commit. See `git log` for the exact commit this session produced.
+
+## 2026-08-17 — Documentation sweep (onboard mode, no feature work)
+
+- **Trigger:** Batch documentation-freshness sweep across several
+  portfolio repos, not tied to a specific new-work request in this
+  repo.
+- **Findings:** Significant drift, including a real gap — two feature
+  commits (`e5b5a58`/`ac22770`, 2026-08-07) had landed **after** the
+  prior doc refresh (`b5dcff8`, same day) and were never documented at
+  all: 8 cascading fake OS error/popup-spam dialogs during the boot
+  flood, and a rain speed-easing effect (`window.__rainFast`). Also
+  undocumented: OG/Twitter meta tags (`7dd923c`/`b344e6c`, 2026-08-13/14)
+  and a CRT/phosphor flicker on the hero name (`4c11b1f`/`3747f05`,
+  2026-08-15/17, adapted from a credited third-party MIT source).
+  `index.html` grew from 611 to 687 lines. All feature branches
+  (`chore/metadata-og`, `chore/polish`) are fully merged into `main`.
+- **Verification performed:** Live-`curl`'d
+  `https://personal-website-delta-plum.vercel.app/` (200) and
+  `/photo.jpeg` (200, matches the new `og:image` URL). Read the actual
+  popup/rain/CRT code in `index.html` directly rather than trusting
+  commit messages alone.
+- **Work completed:** Updated `PROJECT_STATE.md`, `TASKS.md`,
+  `HANDOFF.md`, `CLAUDE.md`, `FEATURES.md`, `UI_SYSTEM.md`, `FILE_MAP.md`
+  to document all of the above. Reframed `TASKS.md`'s current task as
+  `T-001` = the still-unresolved supersession question (was previously
+  described as "none," which didn't satisfy this doc system's
+  current-task-consistency requirement and also undersold that the
+  supersession question is a real standing blocker). **Did not**
+  resolve or attempt to resolve the supersession question itself — that
+  remains for the owner. Did not touch `index.html`/`photo.jpeg`/
+  `favicon.ico`. `python3 verify_docs.py --root .` — all checks pass.
+  No secrets found.
+- **Work remaining:** `T-001` (ask the owner about supersession).
+  Everything else carried over unchanged from prior entries.
+- **Recommended next action:** Ask the owner the supersession question
+  before any further feature work here.

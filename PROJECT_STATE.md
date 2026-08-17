@@ -4,6 +4,43 @@
 moment.** It will go stale the instant more work happens — update it
 after every meaningful session (see `CLAUDE.md` → Permanent rules).
 
+## 2026-08-17 update [Verified] — read this before the rest of the file
+
+A documentation-sweep session (no feature work, no supersession
+decision made) found this repo had drifted significantly from the
+2026-08-07 snapshot below — **including two undocumented feature
+commits that landed the same day, after that doc refresh was written**:
+
+- `e5b5a58`/`ac22770` (2026-08-07, same day as the doc refresh but
+  after it) — added 8 fake OS error/warning "popup spam" dialogs
+  (System Error, Virus Detected, Access Denied, etc.) that cascade in
+  during the boot flood, classic virus-popup-spam style, plus made the
+  Matrix rain run fast/dense during boot and ease to a calm pace once
+  boot finishes (`window.__rainFast` flag). **This was never
+  documented anywhere in this doc set until now** — it existed only in
+  `git log`.
+- `7dd923c`/`b344e6c` (2026-08-13/14) — added OpenGraph + Twitter Card
+  meta tags to `<head>` (title/description/image/url, pointing at
+  `https://personal-website-delta-plum.vercel.app`).
+- `4c11b1f`/`3747f05` (2026-08-15/17) — added a subtle CRT/phosphor
+  flicker effect to the hero `<h1>` (`.fx-crt` class, opacity floor
+  `.96`, low-alpha scanline overlay, `prefers-reduced-motion`-aware) —
+  explicitly adapted from a third-party MIT-licensed source
+  (`text-effects.colorion.co`'s "Phosphor / CRT_Mode"), per the
+  commit's own code comment.
+
+`index.html` is now **687 lines** (up from 611 at the 2026-08-07
+snapshot). Current branch `main`, HEAD `3747f05`, working tree clean.
+All feature branches (`chore/metadata-og`, `chore/polish`) are fully
+merged into `main` — nothing outstanding on any branch. **The
+supersession question below is still unresolved** — this sweep did not
+raise or attempt to resolve it, only corrected the documentation of
+what the codebase actually contains. See `TASKS.md` for the new
+current task (`T-001`: get the popup-spam/rain-easing feature onto the
+record properly, since it was previously undocumented, and confirm
+the OG image URL still resolves given it's a Vercel preview-style
+hostname that could change).
+
 ## ⚠️ Supersession status — read this first
 
 A prior cross-repo inventory audit of `~/Projects` flagged this repo as
