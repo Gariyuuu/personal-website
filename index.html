@@ -18,6 +18,99 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<!-- PORTFOLIO DESIGN SYSTEM - trimmed static include, derived from
+     ~/Projects/.design-system/static-include.css (MASTER v1.2).
+     Declared BEFORE the page's own style block so the site wins ties.
+     Re-vendor from the source file; never patch in place. -->
+<style>
+/* ============================================================================
+ * PORTFOLIO DESIGN SYSTEM — TRIMMED STATIC INCLUDE
+ * Derived from MASTER.css v1.2. Carries ONLY the gates that apply to a plain
+ * HTML/CSS page. Keep this in lockstep with MASTER's version.
+ *
+ * WHAT IS DELIBERATELY ABSENT, and why:
+ *   shadcn semantic tokens  no components/ui here, they would be dead tokens
+ *   --radius-* ramp         nothing reads it; chronos's dead-token defect
+ *   --text-* ramp           same
+ *   CHARTS section          no charts on a static page
+ *   --transition-ui         G10 is "enumerate what THIS element animates";
+ *                           a static site with 4 transitions does not need a token
+ *
+ * CASCADE — this file must be linked/inlined BEFORE the site's own styles.
+ * G34/G51 sit in @layer base so ANY unlayered site rule outranks them: the site
+ * wins ties by construction. The focus rule and the reduce floor are UNLAYERED,
+ * exactly as in MASTER v1.2, because layered !important beats unlayered and a
+ * layered floor would outrank the site's own authored exemptions. That inversion
+ * is the defect v1.2 exists to fix; do not "tidy" these into a layer.
+ * ==========================================================================*/
+
+:root {
+  /* The only tokens here are the ring slots. A site re-points --ring at its own
+   * accent; it does not adopt a foreign palette. */
+  --ring: currentColor;
+  --ring-width: 2px;
+  --ring-offset: 2px;
+}
+
+@layer base {
+  /* G34 — `clip`, not `hidden`: hidden creates a scroll container and breaks
+   * position:sticky/fixed descendants. (CONFLICTS C2.) */
+  html, body { overflow-x: clip; }
+
+  /* G51 — 41 of 43 repos fail this. min-width:0 is required alongside, or
+   * overflow-wrap cannot take effect on a flex/grid child. */
+  h1, h2, h3, h4,
+  [data-display], .display, .font-display {
+    overflow-wrap: anywhere;
+    min-width: 0;
+  }
+}
+
+/* G26 + G39 + G15 — the authored focus state. UNLAYERED on purpose (MASTER L2:
+ * a rule in @layer base loses to utilities and to vendored outline-none, so the
+ * source looks right while the browser paints nothing).
+ * outline, NOT border/box-shadow: box-shadow rings do not follow non-rectangular
+ * shapes and are ERASED in forced-colors mode. (CONFLICTS C1.) */
+a:focus-visible, button:focus-visible, input:focus-visible,
+select:focus-visible, textarea:focus-visible, summary:focus-visible,
+[tabindex]:focus-visible, [role="button"]:focus-visible {
+  outline: var(--ring-width) solid var(--ring);
+  outline-offset: var(--ring-offset);
+  transition: none;
+}
+a:focus:not(:focus-visible), button:focus:not(:focus-visible),
+input:focus:not(:focus-visible), select:focus:not(:focus-visible),
+textarea:focus:not(:focus-visible), summary:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Reduced motion — a FLOOR the site overrides, never a ceiling.
+ * UNLAYERED (v1.2). Ships its own exemptions, because a site with no guard of
+ * its own would otherwise have its spinners frozen by merely adopting this file
+ * — PLAYBOOK P02: less vestibular trigger, not less feedback. */
+@media (prefers-reduced-motion: reduce) {
+  *:not([data-motion-critical]),
+  *:not([data-motion-critical])::before,
+  *:not([data-motion-critical])::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .animate-spin,
+  [role="progressbar"],
+  [data-loading="true"] {
+    animation-duration: 1s !important;
+    animation-iteration-count: infinite !important;
+  }
+  .animate-pulse,
+  [class*="skeleton" i],
+  [class*="shimmer" i] {
+    animation-duration: 2s !important;
+    animation-iteration-count: infinite !important;
+  }
+}
+</style>
 <style>
   :root {
     --text: #d7f5df;
@@ -26,6 +119,9 @@
     --accent: #00ff8c;
     --accent-2: #00e5ff;
     --bg: #000000;
+    --space-1: 4px;  --space-2: 8px;  --space-3: 12px; --space-4: 16px;
+    --space-5: 24px; --space-6: 32px; --space-7: 48px;
+    --ring: var(--accent);   /* 15.68:1 on --bg - the site's own green */
     --surface: #060a07;
     --maxw: 720px;
   }
@@ -50,13 +146,13 @@
     backdrop-filter: blur(8px); border-bottom: 1px solid var(--line);
   }
   .nav-inner {
-    max-width: var(--maxw); margin: 0 auto; padding: 14px 24px;
-    display: flex; align-items: center; gap: 18px; overflow-x: auto;
+    max-width: var(--maxw); margin: 0 auto; padding: var(--space-3) var(--space-5);
+    display: flex; align-items: center; gap: var(--space-4); overflow-x: auto;
   }
   .nav-inner .name {
     font-weight: 700; color: var(--text); margin-right: auto;
     letter-spacing: .08em; white-space: nowrap; text-transform: uppercase;
-    display: flex; align-items: center; gap: 8px;
+    display: flex; align-items: center; gap: var(--space-2);
   }
   .nav-inner .name .dot {
     width: 8px; height: 8px; border-radius: 50%; background: var(--accent);
@@ -68,7 +164,7 @@
 
   main { position: relative; z-index: 1; max-width: var(--maxw); margin: 0 auto; padding: 0 24px 80px; }
 
-  header.hero { padding: 72px 0 56px; display: flex; gap: 36px; align-items: center; flex-wrap: wrap; }
+  header.hero { padding: 72px 0 56px; display: flex; gap: var(--space-6); align-items: center; flex-wrap: wrap; }
   .avatar {
     width: 150px; height: 150px; border-radius: 50%; flex: none;
     background: var(--surface) url('photo.jpeg') center/cover no-repeat;
@@ -76,7 +172,7 @@
     box-shadow: 0 0 20px rgba(0,255,140,.25);
   }
   .hero h1 {
-    font-size: 2.1rem; letter-spacing: .04em; line-height: 1.15; margin-bottom: 8px;
+    font-size: 2.1rem; letter-spacing: .04em; line-height: 1.15; margin-bottom: var(--space-2);
     text-shadow: 0 0 12px rgba(0,255,140,.45);
   }
   /*
@@ -96,10 +192,15 @@
   @keyframes fx-crt-flicker { 0%, 6%, 100% { opacity: 1; } 3% { opacity: .96; } 70% { opacity: .98; } 71% { opacity: 1; } }
   @keyframes fx-crt-roll { to { background-position: 0 48px; } }
   @media (prefers-reduced-motion: reduce) {
-    .hero h1.fx-crt, .hero h1.fx-crt::after { animation: none; }
+    /* !important is REQUIRED, not stylistic: the design system's floor carries
+     * !important, and an important declaration beats a non-important one
+     * regardless of source order. Without this the site's authored policy is
+     * silently replaced by the system's clamp - measured on fluent, which lost
+     * its deliberate 120ms reduce values to 1e-05s exactly this way. */
+    .hero h1.fx-crt, .hero h1.fx-crt::after { animation: none !important; }
   }
-  .hero .headline { font-size: 1.02rem; color: var(--muted); margin-bottom: 16px; }
-  .social { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+  .hero .headline { font-size: 1.02rem; color: var(--muted); margin-bottom: var(--space-4); }
+  .social { display: flex; gap: var(--space-3); align-items: center; flex-wrap: wrap; }
   .social a { color: var(--muted); display: inline-flex; }
   .social a:hover { color: var(--accent); }
   .social svg { width: 20px; height: 20px; fill: currentColor; }
@@ -107,41 +208,41 @@
   section { padding: 40px 0; border-top: 1px solid var(--line); }
   section h2 {
     font-size: .82rem; text-transform: uppercase; letter-spacing: .2em;
-    color: var(--accent); margin-bottom: 24px;
+    color: var(--accent); margin-bottom: var(--space-5);
   }
   section h2::before { content: "// "; color: var(--muted); }
-  section p + p { margin-top: 14px; }
+  section p + p { margin-top: var(--space-3); }
 
-  .item { display: grid; grid-template-columns: 150px 1fr; gap: 8px 24px; padding: 14px 0; }
+  .item { display: grid; grid-template-columns: 150px 1fr; gap: var(--space-2) var(--space-5); padding: var(--space-3) 0; }
   .item .when { color: var(--muted); font-size: .88rem; padding-top: 2px; }
   .item h3 { font-size: 1.02rem; font-weight: 700; color: var(--text); }
-  .item .org { color: var(--muted); font-size: .92rem; margin-bottom: 6px; }
+  .item .org { color: var(--muted); font-size: .92rem; margin-bottom: var(--space-1); }
   .item ul { padding-left: 18px; color: #a9c9b2; font-size: .93rem; }
   .item li { margin: 4px 0; }
   @media (max-width: 560px) {
     .item { grid-template-columns: 1fr; }
-    header.hero { padding: 48px 0 36px; }
+    header.hero { padding: var(--space-7) 0 var(--space-6); }
   }
 
-  .skills { display: grid; gap: 10px; }
-  .skills .row { display: flex; gap: 12px; flex-wrap: wrap; align-items: baseline; }
+  .skills { display: grid; gap: var(--space-2); }
+  .skills .row { display: flex; gap: var(--space-3); flex-wrap: wrap; align-items: baseline; }
   .skills .label { font-weight: 700; font-size: .92rem; flex: none; width: 110px; color: var(--accent-2); }
   .skills .vals { color: #a9c9b2; font-size: .93rem; }
 
   .honors { padding-left: 18px; color: #a9c9b2; font-size: .93rem; }
   .honors li { margin: 8px 0; }
 
-  footer { border-top: 1px solid var(--line); padding: 32px 0 0; color: var(--muted); font-size: .85rem; }
+  footer { border-top: 1px solid var(--line); padding: var(--space-6) 0 0; color: var(--muted); font-size: .85rem; }
   @media print { nav { display: none; } canvas#rain { display: none; } }
 
   #boot {
     position: fixed; inset: 0; z-index: 50; background: #000;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
-    padding: 0 24px; cursor: pointer; transition: opacity .5s ease;
+    padding: 0 var(--space-5); cursor: pointer; transition: opacity .5s ease;
   }
   #boot.fading { opacity: 0; pointer-events: none; }
   #boot .lines { width: 100%; max-width: 520px; font-size: .85rem; }
-  #boot .lines p { margin-bottom: 6px; letter-spacing: .02em; }
+  #boot .lines p { margin-bottom: var(--space-1); letter-spacing: .02em; }
   #boot .lines .prompt { color: var(--accent); }
   #boot .lines .prompt-flood { color: var(--accent-2); }
   #boot .lines p.flood { color: var(--muted); }
@@ -160,7 +261,7 @@
     background: rgba(0,0,0,.95); font-size: .65rem; box-shadow: 0 6px 20px rgba(0,0,0,.6);
   }
   .flood-win .win-head {
-    flex: none; display: flex; align-items: center; gap: 5px; padding: 5px 8px;
+    flex: none; display: flex; align-items: center; gap: var(--space-1); padding: var(--space-1) var(--space-2);
     border-bottom: 1px solid rgba(255,255,255,.2); background: rgba(255,255,255,.05);
   }
   .flood-win .win-dot { width: 6px; height: 6px; border-radius: 50%; }
@@ -168,7 +269,7 @@
   .flood-win .win-dot.d2 { background: rgba(255,255,255,.45); }
   .flood-win .win-dot.d3 { background: rgba(255,255,255,.25); }
   .flood-win .win-title { margin-left: 4px; color: rgba(255,255,255,.5); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .flood-win .win-body { flex: 1; overflow: hidden; padding: 8px; line-height: 1.4; color: rgba(255,255,255,.78); }
+  .flood-win .win-body { flex: 1; overflow: hidden; padding: var(--space-2); line-height: 1.4; color: rgba(255,255,255,.78); }
   .flood-win .win-body p { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0 0 3px; }
 
   .popup-win {
@@ -178,17 +279,17 @@
   .popup-win .popup-head {
     display: flex; align-items: center; justify-content: space-between;
     background: #000; color: #fff; font-size: .95rem; font-weight: 700;
-    padding: 8px 12px;
+    padding: var(--space-2) var(--space-3);
   }
   .popup-win .popup-close {
     display: flex; align-items: center; justify-content: center;
     width: 22px; height: 22px; border: 1px solid #fff; background: #555;
     font-size: .85rem; line-height: 1;
   }
-  .popup-win .popup-body { padding: 16px; font-size: .9rem; line-height: 1.4; }
+  .popup-win .popup-body { padding: var(--space-4); font-size: .9rem; line-height: 1.4; }
   .popup-win .popup-ok {
-    display: inline-block; margin-top: 14px; float: right;
-    border: 1px solid #000; background: #ccc; padding: 4px 18px;
+    display: inline-block; margin-top: var(--space-3); float: right;
+    border: 1px solid #000; background: #ccc; padding: var(--space-1) var(--space-4);
     font-size: .85rem; font-weight: 700; box-shadow: 2px 2px 0 #000;
   }
   @media (min-width: 640px) { .popup-win { width: 26rem; } }
@@ -220,7 +321,7 @@
   .crash-line {
     color: #ffffff; font-weight: 700; letter-spacing: .2em; text-align: center;
     text-shadow: 2px 0 #000000, -2px 0 var(--accent-2);
-    animation: bootGlitchShake .12s infinite; margin-bottom: 8px;
+    animation: bootGlitchShake .12s infinite; margin-bottom: var(--space-2);
   }
   .crash-line.main { font-size: 1.5rem; font-weight: 900; }
   .crash-line.sub { font-size: .9rem; }
@@ -231,7 +332,7 @@
     75% { transform: translate(-2px, -1px); }
     100% { transform: translate(0, 0); }
   }
-  .recover-line { color: var(--muted); letter-spacing: .2em; text-align: center; margin-bottom: 8px; }
+  .recover-line { color: var(--muted); letter-spacing: .2em; text-align: center; margin-bottom: var(--space-2); }
   .recover-line.welcome {
     color: var(--accent); font-size: 1.3rem; font-weight: 700;
     text-shadow: 0 0 6px rgba(0,255,140,.65), 0 0 18px rgba(0,255,140,.35);
