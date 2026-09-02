@@ -3,6 +3,26 @@
 Reconstructed from `git log` (all dates are actual commit dates — none
 invented). No prior CHANGELOG.md existed before the 2026-08-06 audit.
 
+## 2026-09-02 — Content update from the September 2026 resume
+
+Updated `index.html` résumé content to match the owner's updated resume
+(Gary_Wang_Resume.SEP.pdf), on the owner's explicit request. Changes:
+new hero headline + About; Experience gained Accio Work (Full-Stack
+Engineer Intern, Jun 2026–Present) and got corrected titles/end dates
+for Alibaba (Business Analyst Intern, ended Aug 2026), UC Riverside
+(Undergraduate Researcher in ML, ended Jun 2026), Leonard
+Transportation Center (ended Jun 2026), and MP Biomedicals (Full-Stack
+Developer Intern, May–Aug **2024**, was wrongly 2023); Projects now
+lists Independent AI Web-app & App Development (40+ products) and the
+Language Learning App & Research Paper (dates corrected to Aug 2024–
+May 2025, 10+ journals), dropping the Job Salary Prediction project
+(no longer on the resume); Education coursework updated to the resume's
+list; Skills expanded to six rows (adds TypeScript/JavaScript/Swift,
+Web Dev and Data & Cloud rows, DevOps row); Honors reworded to resume
+phrasing; **contact email changed from gywng006@gmail.com to
+gary_wang@berkeley.edu** (the resume's listed email) in all three
+places; meta/OG/Twitter descriptions updated. No theme/JS changes.
+
 ## 2026-08-07 — Documentation refresh + supersession flag
 
 Verified the 16-file doc set against the actual repo (which had

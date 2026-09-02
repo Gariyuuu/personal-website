@@ -4,6 +4,20 @@
 moment.** It will go stale the instant more work happens — update it
 after every meaningful session (see `CLAUDE.md` → Permanent rules).
 
+## 2026-09-02 update [Verified] — resume content refresh
+
+On the owner's explicit request, `index.html`'s résumé content was
+updated to match the September 2026 resume (see `CHANGELOG.md`
+2026-09-02 for the full delta — new Accio Work role, corrected
+dates/titles throughout, new Independent AI Development project,
+salary-prediction project dropped, skills/coursework/honors refreshed,
+**contact email now gary_wang@berkeley.edu**). Theme/JS untouched.
+Note: HEAD before this session was `9e515a2` (a design-system static
+include had landed since the 2026-08-17 sweep below, undocumented in
+this file until now). The supersession question (T-001) remains
+formally open, but the owner actively requested this update, so the
+repo is clearly still wanted as a living resume.
+
 ## 2026-08-17 update [Verified] — read this before the rest of the file
 
 A documentation-sweep session (no feature work, no supersession

@@ -161,3 +161,25 @@ commit. See `git log` for the exact commit this session produced.
   Everything else carried over unchanged from prior entries.
 - **Recommended next action:** Ask the owner the supersession question
   before any further feature work here.
+
+## 2026-09-02 — Resume content update (feature/content work)
+
+- **Trigger:** Owner explicitly asked to update the live site with
+  their updated resume (Gary_Wang_Resume.SEP.pdf) and LinkedIn URL.
+  The LinkedIn URL provided matched what was already on the site
+  (`gary-wang-a912a0308`) — no change needed there. The owner's
+  explicit request resolves the T-001 "invest here?" hesitation for
+  content updates (supersession as a repo-lifecycle question remains
+  formally open).
+- **Work completed:** `index.html` content updated end to end — see
+  CHANGELOG.md 2026-09-02 entry for the full delta (new Accio Work
+  role, corrected titles/dates for the four prior roles, new
+  Independent AI Development project entry, salary-prediction project
+  dropped, coursework/skills/honors refreshed, contact email changed
+  to gary_wang@berkeley.edu per the resume, meta descriptions updated).
+- **Not changed:** theme, boot/rain/CRT scripts, design-system
+  include, photo, favicon, GitHub/LinkedIn/OpenReview links.
+- **Verification:** grepped that no stale strings remain
+  (gywng006, "May 2023", Salary Prediction, OIDD); item count is 8
+  (5 experience + 2 projects + 1 education). Committed and pushed;
+  live deployment verified per the terminal session record.
