@@ -116,8 +116,8 @@ See `PROJECT_STATE.md` for the exact, timestamped snapshot. Summary:
   to compile, bundle, or transpile.
 - **Styling:** Inline `<style>` block using CSS custom properties
   (`:root { --text; --muted; --line; --accent; --accent-2; --bg;
-  --surface; --maxw }`), now a dark/near-black "hacker" palette (green
-  accent `#00ff8c`, cyan accent `#00e5ff`). No Tailwind, no CSS
+  --surface; --maxw }`), now a dark/near-black "hacker" palette (monochrome
+  since 2026-09-14: white accent `#ffffff`, grey accent `#a3a3a3`, no hue). No Tailwind, no CSS
   framework, no CSS-in-JS. See `UI_SYSTEM.md`.
 - **Fonts:** `"Share Tech Mono"` monospace webfont loaded from Google
   Fonts (`<link rel="preconnect">` to `fonts.googleapis.com`/
@@ -251,9 +251,9 @@ Observed directly from `index.html` (Verified):
 
 Full detail in `UI_SYSTEM.md`. Key facts (updated 2026-08-07 for the
 dark hacker-theme rework): dark theme only (near-black background,
-green/cyan accents — no `prefers-color-scheme` handling, just one fixed
+white/grey accents, no hue (monochrome since 2026-09-14) — no `prefers-color-scheme` handling, just one fixed
 dark palette), max content width `720px` centered, accent color
-`#00ff8c` (green) with a `#00e5ff` (cyan) secondary accent, body copy
+`#ffffff` (white) with a `#a3a3a3` (grey) secondary accent, body copy
 `16px/1.7`, `"Share Tech Mono"` monospace webfont (Google Fonts, with
 system-monospace fallback), single responsive breakpoint at `560px`,
 plus a full-screen canvas rain effect and a one-time skippable terminal

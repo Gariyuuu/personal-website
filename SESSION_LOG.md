@@ -183,3 +183,14 @@ commit. See `git log` for the exact commit this session produced.
   (gywng006, "May 2023", Salary Prediction, OIDD); item count is 8
   (5 experience + 2 projects + 1 education). Committed and pushed;
   live deployment verified per the terminal session record.
+
+## 2026-09-14 — Monochrome palette + nonchalant boot copy
+
+- **Trigger:** owner asked for this site and gariyuuu.com to go "just black,
+  not green" with a far more nonchalant loading page, same effects, no
+  changes to transitions/animation.
+- **Work completed:** see CHANGELOG 2026-09-14. Only colour values and
+  strings changed in `index.html`; no JS logic, timing or keyframe edits.
+- **Verification:** served on a free local port, title-checked, Playwright
+  captures of all five phases; no green left (`grep` for 00ff8c /
+  0,255,140 / green returns nothing in `index.html`).

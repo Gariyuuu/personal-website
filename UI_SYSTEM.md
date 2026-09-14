@@ -17,13 +17,13 @@ Declared once as CSS custom properties under `:root`:
 
 ```css
 :root {
-  --text: #d7f5df;     /* primary text color — pale green */
-  --muted: #5f7a68;    /* secondary text — dates, subtitles, nav links */
-  --line: #16241a;     /* border/divider color — dark green */
-  --accent: #00ff8c;   /* primary accent — bright green */
-  --accent-2: #00e5ff; /* secondary accent — cyan */
+  --text: #e6e6e6;     /* primary text color — off-white */
+  --muted: #7a7a7a;    /* secondary text — dates, subtitles, nav links */
+  --line: #1f1f1f;     /* border/divider color — near-black grey */
+  --accent: #ffffff;   /* primary accent — white */
+  --accent-2: #a3a3a3; /* secondary accent — grey */
   --bg: #000000;       /* page background — pure black */
-  --surface: #060a07;  /* slightly-raised surface (e.g. avatar empty state) */
+  --surface: #0a0a0a;  /* slightly-raised surface (e.g. avatar empty state) */
   --maxw: 720px;        /* max content width, centered */
 }
 ```
@@ -45,7 +45,7 @@ places each.
 - **Base size/line-height:** `16px/1.7` on `body`, with `letter-spacing:
   .01em`.
 - **Headings:** `.hero h1` is `2.1rem`, `letter-spacing: .04em`, with a
-  green text-shadow glow. Section headings (`section h2`) are
+  soft white text-shadow glow. Section headings (`section h2`) are
   small-caps-style: `.82rem`, `text-transform: uppercase`,
   `letter-spacing: .2em`, colored `var(--accent)`, and prefixed with a
   `// ` comment-style marker via `::before`.
@@ -70,8 +70,8 @@ places each.
 
 ## Color usage
 
-- Links (`a`) use `var(--accent)` (green), switching to `var(--accent-2)`
-  (cyan) on hover, underlined on hover.
+- Links (`a`) use `var(--accent)` (white), switching to `var(--accent-2)`
+  (grey) on hover, underlined on hover.
 - Nav links default to `var(--muted)`, switch to `var(--accent)` on
   hover.
 - Section dividers use 1px solid `var(--line)` borders (`border-top` on
@@ -79,15 +79,15 @@ places each.
 - **Dark theme only.** No light mode, no `prefers-color-scheme` media
   query, no theme toggle of any kind — see `ROADMAP.md` for a
   light-mode toggle listed as a possible (unrequested) future idea.
-- A pulsing green "status dot" (`.nav-inner .name .dot`) sits next to
+- A pulsing white "status dot" (`.nav-inner .name .dot`) sits next to
   the name in the nav, animated via a `pulse` `@keyframes` rule.
 - The boot overlay uses additional one-off colors for its phases:
-  green/cyan for the normal boot text, white/gray "terminal window"
+  white/grey for the normal boot text, white/gray "terminal window"
   panels for the fake "flood" phase (**plus, added 2026-08-07, up to 8
   cascading fake OS error/warning popup dialogs** — `.popup-win`,
   styled as classic Windows-style dialog boxes with a title bar and OK
   button — layered on top of the terminal windows during the flood
-  phase), and a red flicker (`bootCrashFlicker` `@keyframes`) for the
+  phase), and a dark-grey flicker (red until 2026-09-14) (`bootCrashFlicker` `@keyframes`) for the
   "crash" phase.
 - **Added 2026-08-15:** a subtle CRT/phosphor flicker on the hero
   `<h1>` (`.fx-crt` class) — opacity dips no lower than `.96` (`

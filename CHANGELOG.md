@@ -3,6 +3,18 @@
 Reconstructed from `git log` (all dates are actual commit dates — none
 invented). No prior CHANGELOG.md existed before the 2026-08-06 audit.
 
+## 2026-09-14 — Monochrome palette, nonchalant boot intro
+
+On the owner's request ("just black, not green"; loading page "way more
+nonchalant", same effects, no changes to the transition or animation):
+palette is now black / white / greys only — tokens, avatar and hero/welcome
+glows, `#a9c9b2` body greys, crash flicker (red → dark greys). Boot intro
+copy rewritten lowercase and deadpan ("loading. take your time.", "welp.",
+"oh. hey."), skip hint now "click anywhere if you're bored". Every phase
+array kept its length, so all timings, keyframes and transitions are
+unchanged. Verified locally in Playwright across boot / flood / crash /
+recover / page, zero console errors.
+
 ## 2026-09-02 — Content update from the September 2026 resume
 
 Updated `index.html` résumé content to match the owner's updated resume

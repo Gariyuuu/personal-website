@@ -113,16 +113,16 @@ textarea:focus:not(:focus-visible), summary:focus:not(:focus-visible) {
 </style>
 <style>
   :root {
-    --text: #d7f5df;
-    --muted: #5f7a68;
-    --line: #16241a;
-    --accent: #00ff8c;
-    --accent-2: #00e5ff;
+    --text: #e6e6e6;
+    --muted: #7a7a7a;
+    --line: #1f1f1f;
+    --accent: #ffffff;
+    --accent-2: #a3a3a3;
     --bg: #000000;
     --space-1: 4px;  --space-2: 8px;  --space-3: 12px; --space-4: 16px;
     --space-5: 24px; --space-6: 32px; --space-7: 48px;
-    --ring: var(--accent);   /* 15.68:1 on --bg - the site's own green */
-    --surface: #060a07;
+    --ring: var(--accent);   /* 21:1 on --bg - the site's own white */
+    --surface: #0a0a0a;
     --maxw: 720px;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -169,11 +169,11 @@ textarea:focus:not(:focus-visible), summary:focus:not(:focus-visible) {
     width: 150px; height: 150px; border-radius: 50%; flex: none;
     background: var(--surface) url('photo.jpeg') center/cover no-repeat;
     border: 1px solid var(--accent);
-    box-shadow: 0 0 20px rgba(0,255,140,.25);
+    box-shadow: 0 0 20px rgba(255,255,255,.12);
   }
   .hero h1 {
     font-size: 2.1rem; letter-spacing: .04em; line-height: 1.15; margin-bottom: var(--space-2);
-    text-shadow: 0 0 12px rgba(0,255,140,.45);
+    text-shadow: 0 0 12px rgba(255,255,255,.28);
   }
   /*
    * Adapted from CSS Text Effects' "Phosphor / CRT_Mode" (text-effects.colorion.co, MIT).
@@ -217,7 +217,7 @@ textarea:focus:not(:focus-visible), summary:focus:not(:focus-visible) {
   .item .when { color: var(--muted); font-size: .88rem; padding-top: 2px; }
   .item h3 { font-size: 1.02rem; font-weight: 700; color: var(--text); }
   .item .org { color: var(--muted); font-size: .92rem; margin-bottom: var(--space-1); }
-  .item ul { padding-left: 18px; color: #a9c9b2; font-size: .93rem; }
+  .item ul { padding-left: 18px; color: #a8a8a8; font-size: .93rem; }
   .item li { margin: 4px 0; }
   @media (max-width: 560px) {
     .item { grid-template-columns: 1fr; }
@@ -227,9 +227,9 @@ textarea:focus:not(:focus-visible), summary:focus:not(:focus-visible) {
   .skills { display: grid; gap: var(--space-2); }
   .skills .row { display: flex; gap: var(--space-3); flex-wrap: wrap; align-items: baseline; }
   .skills .label { font-weight: 700; font-size: .92rem; flex: none; width: 110px; color: var(--accent-2); }
-  .skills .vals { color: #a9c9b2; font-size: .93rem; }
+  .skills .vals { color: #a8a8a8; font-size: .93rem; }
 
-  .honors { padding-left: 18px; color: #a9c9b2; font-size: .93rem; }
+  .honors { padding-left: 18px; color: #a8a8a8; font-size: .93rem; }
   .honors li { margin: 8px 0; }
 
   footer { border-top: 1px solid var(--line); padding: var(--space-6) 0 0; color: var(--muted); font-size: .85rem; }
@@ -251,7 +251,7 @@ textarea:focus:not(:focus-visible), summary:focus:not(:focus-visible) {
     animation: pulse 1s step-end infinite; vertical-align: middle;
   }
   #boot .hint {
-    margin-top: 40px; font-size: .65rem; text-transform: uppercase;
+    margin-top: 40px; font-size: .65rem;
     letter-spacing: .2em; color: var(--muted);
   }
 
@@ -310,13 +310,13 @@ textarea:focus:not(:focus-visible), summary:focus:not(:focus-visible) {
 
   #boot.crash { animation: bootCrashFlicker .15s steps(1) infinite; }
   @keyframes bootCrashFlicker {
-    0%, 100% { background-color: #7a0000; transform: translate(0, 0); }
-    15% { background-color: #b30000; transform: translate(-6px, 4px); }
-    30% { background-color: #5c0000; transform: translate(6px, -4px); }
-    45% { background-color: #8f0000; transform: translate(-5px, -6px); }
-    60% { background-color: #400000; transform: translate(5px, 6px); }
-    75% { background-color: #b30000; transform: translate(-6px, 3px); }
-    90% { background-color: #5c0000; transform: translate(6px, -3px); }
+    0%, 100% { background-color: #1c1c1c; transform: translate(0, 0); }
+    15% { background-color: #333333; transform: translate(-6px, 4px); }
+    30% { background-color: #111111; transform: translate(6px, -4px); }
+    45% { background-color: #262626; transform: translate(-5px, -6px); }
+    60% { background-color: #080808; transform: translate(5px, 6px); }
+    75% { background-color: #333333; transform: translate(-6px, 3px); }
+    90% { background-color: #111111; transform: translate(6px, -3px); }
   }
   .crash-line {
     color: #ffffff; font-weight: 700; letter-spacing: .2em; text-align: center;
@@ -335,7 +335,7 @@ textarea:focus:not(:focus-visible), summary:focus:not(:focus-visible) {
   .recover-line { color: var(--muted); letter-spacing: .2em; text-align: center; margin-bottom: var(--space-2); }
   .recover-line.welcome {
     color: var(--accent); font-size: 1.3rem; font-weight: 700;
-    text-shadow: 0 0 6px rgba(0,255,140,.65), 0 0 18px rgba(0,255,140,.35);
+    text-shadow: 0 0 6px rgba(255,255,255,.5), 0 0 18px rgba(255,255,255,.22);
   }
 </style>
 </head>
@@ -346,7 +346,7 @@ textarea:focus:not(:focus-visible), summary:focus:not(:focus-visible) {
 <div id="boot">
   <div class="lines"></div>
   <div class="flood-windows" style="display:none"></div>
-  <p class="hint">click / press any key to skip</p>
+  <p class="hint">click anywhere if you're bored</p>
 </div>
 
 <nav>
@@ -600,62 +600,62 @@ window.__rainFast = true;
   ];
 
   var POPUPS = [
-    { title: 'System Error', message: 'A fatal exception 0E has occurred at 0028:C0011E36.', style: 'top:1%;left:1%;transform:rotate(-3deg)' },
-    { title: 'Warning', message: 'Virus detected in C:\\WINDOWS\\SYSTEM32\\', style: 'top:3%;left:48%;transform:rotate(2deg)' },
-    { title: 'Access Denied', message: 'You do not have permission to perform this action.', style: 'top:22%;left:24%;transform:rotate(-2deg)' },
-    { title: 'Critical Alert', message: 'Unauthorized access detected on this machine.', style: 'top:30%;left:60%;transform:rotate(3deg)' },
-    { title: 'Security Warning', message: 'Firewall has been disabled remotely.', style: 'top:48%;left:2%;transform:rotate(-1deg)' },
-    { title: 'Error', message: 'The application has encountered an unknown error.', style: 'top:55%;left:42%;transform:rotate(2deg)' },
-    { title: 'Intruder Alert', message: 'Multiple failed login attempts detected.', style: 'top:18%;left:70%;transform:rotate(-2deg)' },
-    { title: 'System32', message: 'Deleting critical system files...', style: 'top:72%;left:22%;transform:rotate(1deg)' }
+    { title: 'error', message: 'a fatal exception occurred. you can ignore it.', style: 'top:1%;left:1%;transform:rotate(-3deg)' },
+    { title: 'warning', message: 'virus detected in system32. it seems happy there.', style: 'top:3%;left:48%;transform:rotate(2deg)' },
+    { title: 'access denied', message: 'you don\'t have permission. neither do i.', style: 'top:22%;left:24%;transform:rotate(-2deg)' },
+    { title: 'alert', message: 'unauthorized access detected. noted.', style: 'top:30%;left:60%;transform:rotate(3deg)' },
+    { title: 'security', message: 'firewall disabled remotely. it\'ll be fine.', style: 'top:48%;left:2%;transform:rotate(-1deg)' },
+    { title: 'error', message: 'something went wrong. no idea what.', style: 'top:55%;left:42%;transform:rotate(2deg)' },
+    { title: 'fyi', message: 'multiple failed logins. happens.', style: 'top:18%;left:70%;transform:rotate(-2deg)' },
+    { title: 'system32', message: 'deleting system files. they weren\'t doing much.', style: 'top:72%;left:22%;transform:rotate(1deg)' }
   ];
 
   var BOOT_LINES = [
-    'GARY WANG — SYSTEM',
-    'SITE INITIALIZING...',
-    'LOADING PROFILE: EXPERIENCE, PROJECTS, EDUCATION...',
-    'MOUNTING RESUME DATA...'
+    'gary wang',
+    'loading. take your time.',
+    'grabbing experience, projects, education',
+    'resume\'s in here somewhere'
   ];
   var FLOOD_LINES = [
-    'SCANNING NETWORK 10.0.0.0/8...',
-    'HOST 10.0.4.17 RESPONDING',
-    'PORT 22 OPEN — SSH HANDSHAKE INITIATED',
-    'PORT 443 OPEN — TLS FINGERPRINT MATCHED',
-    'PORT 3306 OPEN — MYSQL SERVICE DETECTED',
-    'FINGERPRINTING OS: LINUX 6.2.0-KALI',
-    'BRUTE FORCE: 4281/10000 KEYS TESTED',
-    'BRUTE FORCE: 8734/10000 KEYS TESTED',
-    'PASSWORD HASH CRACKED: 5f4dcc3b5aa765d6',
-    '0x4F3A9C1E -> 0x00FF8C -> 0x1A2B3C',
-    'DECRYPTING AES-256 KEYSTORE...',
-    'KEYSTORE UNLOCKED',
-    'INJECTING PAYLOAD [======----] 61%',
-    'INJECTING PAYLOAD [==========] 100%',
-    'BYPASSING FIREWALL RULE 0x12F...',
-    'FIREWALL RULE 0x12F DISABLED',
-    'ACCESS DENIED. RETRYING...',
-    'ACCESS DENIED. RETRYING...',
-    'ACCESS DENIED. RETRYING...',
-    'EXPLOIT CVE-2024-19832 MATCHED',
-    'EXPLOIT CVE-2023-44487 MATCHED',
-    'PRIVILEGE ESCALATION IN PROGRESS...',
-    'ROOT ACCESS GRANTED',
-    'DUMPING /etc/shadow...',
-    'DUMPING SESSION TOKENS...',
-    'EXFILTRATING DATA [==========] 100%',
-    'UPLOADING TO REMOTE HOST 185.23.44.6...',
-    'WARNING: INTRUSION DETECTED',
-    'WARNING: ADMIN NOTIFIED',
-    'COUNTERMEASURES ENGAGED',
-    'REROUTING THROUGH 14 PROXIES...',
-    'SPOOFING MAC ADDRESS...',
-    'WIPING BASH HISTORY...',
-    'CLEARING LOGS...',
-    'DISCONNECTING TRACE...',
-    'SIGNAL LOST'
+    'scanning network... eh, it\'s fine',
+    'host 10.0.4.17 responding. neat',
+    'port 22 open. leaving it',
+    'port 443 open. that\'s normal',
+    'port 3306 open. not my problem',
+    'os: linux. cool',
+    'brute force: 4281/10000. no hurry',
+    'brute force: 8734/10000. sure',
+    'hash cracked: 5f4dcc3b. it was "password"',
+    '0x4f3a9c1e -> 0xffffff -> 0x1a2b3c',
+    'decrypting keystore... whenever',
+    'keystore unlocked. ok',
+    'injecting payload [======----] 61%',
+    'injecting payload [==========] 100%',
+    'firewall rule 0x12f... skipped it',
+    'firewall disabled. oops',
+    'access denied. fair',
+    'access denied. also fair',
+    'access denied. anyway',
+    'cve-2024-19832 matched. whatever',
+    'cve-2023-44487 matched. again',
+    'escalating privileges, casually',
+    'root access. didn\'t really want it',
+    'reading /etc/shadow. boring',
+    'session tokens... skimmed',
+    'copying data [==========] 100%',
+    'uploading somewhere. doesn\'t matter',
+    'intrusion detected. yeah',
+    'admin notified. they\'re at lunch',
+    'countermeasures engaged. cute',
+    'rerouting through 14 proxies. scenic route',
+    'spoofing mac address. why not',
+    'wiping bash history',
+    'clearing logs. tidy',
+    'disconnecting trace',
+    'signal lost. that\'s fine'
   ];
-  var CRASH_LINES = ['SYSTEM COMPROMISED', 'SYSTEM FAILURE', 'CONNECTION TERMINATED'];
-  var RECOVER_LINES = ['REBOOTING...', 'WELCOME BACK, GARY.'];
+  var CRASH_LINES = ['welp.', 'system failure', 'no big deal'];
+  var RECOVER_LINES = ['restarting, i guess', 'oh. hey.'];
 
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     boot.remove();
@@ -702,7 +702,7 @@ window.__rainFast = true;
       var pop = POPUPS[p];
       html += '<div class="popup-win" style="' + pop.style + '">' +
         '<div class="popup-head"><span>' + pop.title + '</span><span class="popup-close">&times;</span></div>' +
-        '<div class="popup-body">' + pop.message + '<span class="popup-ok">OK</span></div></div>';
+        '<div class="popup-body">' + pop.message + '<span class="popup-ok">ok</span></div></div>';
     }
     floodEl.innerHTML = html;
     linesEl.style.display = 'none';
