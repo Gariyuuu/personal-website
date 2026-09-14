@@ -4,6 +4,20 @@
 moment.** It will go stale the instant more work happens — update it
 after every meaningful session (see `CLAUDE.md` → Permanent rules).
 
+## 2026-09-14 update [Verified] — content synced to LinkedIn
+
+On the owner's request, `index.html` content now mirrors his LinkedIn
+(22 experience entries, 4 education entries, LinkedIn headline, languages,
+honors; see `CHANGELOG.md` 2026-09-14). Avatar/OG image is now
+`photo-2026-09.jpg` (LinkedIn headshot, 400×400); `photo.jpeg` remains in
+the repo but is unreferenced (safe to delete later). Same day, a separate
+session landed the monochrome palette + nonchalant boot copy (`088c4d6`).
+**Deploys are manual CLI** (`vercel deploy --prod` from a clean checkout of
+the commit): the Vercel project has no Git link, so pushing does NOT deploy.
+Production alias: https://personal-website-delta-plum.vercel.app. Contact
+email remains gary_wang@berkeley.edu; the personal gmail on the LinkedIn
+export and the phone number are intentionally not published.
+
 ## 2026-09-02 update [Verified] — resume content refresh
 
 On the owner's explicit request, `index.html`'s résumé content was

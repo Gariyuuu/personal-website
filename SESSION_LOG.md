@@ -194,3 +194,27 @@ commit. See `git log` for the exact commit this session produced.
 - **Verification:** served on a free local port, title-checked, Playwright
   captures of all five phases; no green left (`grep` for 00ff8c /
   0,255,140 / green returns nothing in `index.html`).
+
+## 2026-09-14 — Content synced to LinkedIn (content work)
+
+- **Trigger:** owner: "just update the stuff with my linkedin" — content
+  only, keep the design.
+- **Source of truth:** the live LinkedIn archive DB doc
+  (gary-wang-archive.vercel.app, refreshed from LinkedIn 2026-09-12), with
+  every entry cross-checked against LinkedIn's export PDF
+  (`~/Downloads/Profile (1).pdf`, all 22 experiences untruncated) and the Sep
+  11 page print (`/Applications/Career/Gary Wang _ LinkedIn.pdf`).
+- **Work completed:** see CHANGELOG 2026-09-14 "Content synced to the owner's
+  LinkedIn". Deliberately NOT published: phone number, the personal gmail
+  that LinkedIn's export lists as contact, follower/connection counts, the
+  Figwork post, causes, per-role employment type (Contract/Apprenticeship) and
+  on-site/hybrid flags. LinkedIn's "RHLF" typo written as RLHF.
+- **Concurrency note:** a parallel session committed/deployed the monochrome
+  restyle (`088c4d6`) in this same checkout mid-session; this session's
+  content diff was verified to be exactly HEAD + content before committing,
+  so neither change overwrote the other.
+- **Verification:** Playwright (file://, reduced motion) at 1280px and 400px:
+  28 `.item`s (22 experience, 2 projects, 4 education), no horizontal
+  overflow, avatar image loads, zero console errors. Deployed with
+  `vercel deploy --prod` (CLI; project has no Git link) and curl-verified on
+  personal-website-delta-plum.vercel.app.

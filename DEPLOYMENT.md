@@ -22,6 +22,17 @@ static HTML file with no build step, Vercel's zero-config static-file
 detection is sufficient — no custom build command, output directory,
 redirects, or headers are configured anywhere.
 
+## Verified 2026-09-14 — manual CLI deploys only
+
+Checked via the Vercel API: project `prj_H8PE0dzDhR5rA64uqqXrRA0ndVNW` has
+**no Git repository link**, and every recent production deployment has
+source `cli`. **Pushing to GitHub does not deploy.** Ship with
+`vercel deploy --prod` from a checkout that contains only committed work
+(multiple sessions may share this directory — deploying from it can ship
+someone's uncommitted edits). Production alias:
+`https://personal-website-delta-plum.vercel.app`. The historical
+"Unverified" discussion below is kept for context.
+
 ## How deploys are triggered
 
 **Unverified from within this repo** — could not be confirmed without

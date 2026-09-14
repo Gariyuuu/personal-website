@@ -3,6 +3,34 @@
 Reconstructed from `git log` (all dates are actual commit dates — none
 invented). No prior CHANGELOG.md existed before the 2026-08-06 audit.
 
+## 2026-09-14 — Content synced to the owner's LinkedIn
+
+On the owner's request ("just update the stuff with my linkedin"), résumé
+content in `index.html` now matches LinkedIn (source: the LinkedIn archive at
+gary-wang-archive.vercel.app, cross-checked against LinkedIn's own profile
+export PDF and the Sep 11 page print). Rule: LinkedIn wins wherever it states
+something; site content LinkedIn doesn't contradict is kept. Changes: hero
+headline is LinkedIn's ("stats, econ & ds @ ucb · San Francisco Bay Area");
+About rewritten around current roles; Experience expanded from 5 to all 22
+LinkedIn entries with LinkedIn titles/dates (Accio → Full Stack Engineer
+Jun–Aug 2026; Alibaba Group → Business Analyst; new Alibaba Cloud ML
+Researcher; LTC → Undergraduate Research Assistant Oct 2025–Sep 2026 plus
+Undergraduate Student Researcher Sep 2026–Present; UCR → Undergraduate
+Researcher; MP Biomedicals → Data Analyst Jul–Aug 2024 plus Software Engineer
+Jul–Aug 2023; new UC Berkeley URAP, Data Science Discovery Program, Rapid
+Reviews\Infectious Diseases, CSUSB, Figwork, EBI, Mathnasium, LanguageConnect,
+ForeignLanguagePro, Kaggle, Cal Poly Pomona, IEEE Conference, Center for
+Compassionate Leadership, George Mason). Education is LinkedIn's 4 entries
+(3 UC Berkeley bachelor's — Statistics, Data Science, Economics, Aug 2025–May
+2029 — plus St. Margaret's Episcopal School 2021–2025 with SAT 1590). Skills
+gained LinkedIn's LLMOps/NLP/LLMs/RLHF/Systems Engineering/Data Cleaning/
+Product Analytics; Languages now Chinese + English (native or bilingual),
+Japanese (limited working). Honors now include the publication, IEEE '26 and
+3x Presidential Service Gold Medalist. Profile photo replaced with the
+LinkedIn headshot as `photo-2026-09.jpg` (new filename to dodge caches; old
+`photo.jpeg` left in the repo, unreferenced). Contact email unchanged
+(gary_wang@berkeley.edu). No theme/JS changes.
+
 ## 2026-09-14 — Monochrome palette, nonchalant boot intro
 
 On the owner's request ("just black, not green"; loading page "way more

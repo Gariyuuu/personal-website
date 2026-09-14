@@ -133,7 +133,7 @@ See `PROJECT_STATE.md` for the exact, timestamped snapshot. Summary:
   docs describing an inline `data:` SVG favicon are outdated; that
   approach was replaced by this real `favicon.ico` file at some point
   before this refresh.
-- **Images:** One JPEG, `photo.jpeg` (400×400px, ~31KB), referenced as
+- **Images:** `photo-2026-09.jpg` (400×400px, LinkedIn headshot, since 2026-09-14; the older `photo.jpeg` is unreferenced), referenced as
   a CSS `background-image` for the circular avatar.
 - **Hosting:** Vercel. `.vercel/project.json` (gitignored, local-only)
   shows `projectName: "personal-website"`. No `vercel.json` in the repo
@@ -306,7 +306,7 @@ Vercel dashboard to confirm.
   correctly — do not remove it from `.gitignore` or commit it; Vercel's
   own guidance (`.vercel/README.txt`) is explicit that this folder
   should never be shared/committed.
-- **Contact info accuracy** — the email (`gywng006@gmail.com`), GitHub
+- **Contact info accuracy** — the email (`gary_wang@berkeley.edu` since 2026-09-02), GitHub
   (`Gariyuuu`), LinkedIn, and OpenReview URLs in `index.html` are the
   owner's real, public contact/profile details. Don't alter them
   without being told to; a typo here silently breaks how people reach
