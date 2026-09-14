@@ -31,6 +31,14 @@ LinkedIn headshot as `photo-2026-09.jpg` (new filename to dodge caches; old
 `photo.jpeg` left in the repo, unreferenced). Contact email unchanged
 (gary_wang@berkeley.edu). No theme/JS changes.
 
+## 2026-09-14 — RGB static glitch on the hero name
+
+"Gary Wang" in the hero is wrapped in `.glitch`: white text with a red/blue
+channel split that hard-cuts to red or blue while sliced red/blue copies jump
+sideways (steps(1), 2.4s loop, under 3 flashes/s). Sits inside the existing
+`fx-crt` h1, so the CRT flicker and scanlines still apply. Reduced motion keeps
+only the still RGB split. Matches gariyuuu.com's hero highlight.
+
 ## 2026-09-14 — Monochrome palette, nonchalant boot intro
 
 On the owner's request ("just black, not green"; loading page "way more
