@@ -31,6 +31,14 @@ LinkedIn headshot as `photo-2026-09.jpg` (new filename to dodge caches; old
 `photo.jpeg` left in the repo, unreferenced). Contact email unchanged
 (gary_wang@berkeley.edu). No theme/JS changes.
 
+## 2026-09-14 — Slower glitch, static on hover, grey-shaded rain
+
+Hero-name glitch slowed to a 4.8s loop with its own slightly different palette
+(pale blue-white, rose / sky channels). Any text under a mouse or pen pointer
+now gets the static glitch (pure red / white / blue, 3.2s loop; off for touch
+and reduced motion). Matrix rain kept at its original strength and now shaded
+white → grey → dark grey along each trail. Matches gariyuuu.com.
+
 ## 2026-09-14 — RGB static glitch on the hero name
 
 "Gary Wang" in the hero is wrapped in `.glitch`: white text with a red/blue
